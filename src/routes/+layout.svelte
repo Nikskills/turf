@@ -3,7 +3,7 @@
     import "../app.css"
 </script>
 
-<div class="bg-generalbackground w-screen">
+<div class="bg-generalbackground w-screen h-screen">
     <div class="flex flex-row gap-5 ">
         <div class="w-[5%]"><Navbar /></div>
         <div class="w-[95%]">

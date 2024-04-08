@@ -8,6 +8,8 @@ export default {
       'primarybutton': '#A0EBD1',
       'primarybuttondark': '#8DE7C8',
       'generalbackground': '#F5F4F4',
+      'widgetaccent': '#D7DEE1',
+      
       primary: {
         //flowbite
         50: '#FFF5F2',
