@@ -1,17 +1,18 @@
 <script>
 	import Navbar from "$lib/components/Navbar.svelte";
-
+    import PrimaryButton from "$lib/components/PrimaryButton.svelte";
+	import { text } from "@sveltejs/kit";
 </script>
 
 <body>
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full mt-5">
         <div class="flex flex-row justify-between"> 
             <!-- de bovenste row -->
             <div>Dashboard</div>
-            <div class="flex flex-row">
+            <div class="flex flex-row gap-4 mr-10">
                 <!-- buttons -->
-                <div>Button</div>
-                <div>Button</div>
+                <div><PrimaryButton text="Nieuwe Voorraad"/></div>
+                <div><PrimaryButton text="Ik heb gezopen"/></div>
             </div>
         </div>
         <div>
