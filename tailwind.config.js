@@ -1,6 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./src/**/*.{html,js,svelte,ts}'],
+  content: [
+    './src/**/*.{html,js,svelte,ts}',
+    "./node_modules/flowbite-svelte-icons/**/*.{html,js,svelte,ts}"
+  ],
   theme: {
     extend: {},
     colors: {
@@ -9,6 +12,7 @@ export default {
       'primarybuttondark': '#8DE7C8',
       'generalbackground': '#F5F4F4',
       'widgetaccent': '#D7DEE1',
+      'white': '#FFFFFF',
       
       primary: {
         //flowbite
