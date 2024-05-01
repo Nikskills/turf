@@ -15,10 +15,51 @@ datasource db {
 
 
 model User {
-  id Int @id @default(autoincrement())
+  id String @id @default(uuid())
   name String
   email String @unique
   password String
   balance Float
+  purchases Purchase[]
+  Sessions ConsumptionSession[]
+  Consumptions Consumption[]
 }
 
+model Purchase {
+  purchaseId String @id @default(uuid())
+  purchaser User @relation(fields: [buyerId], references: [id])
+  buyerId String
+  quantityOfBeers Int
+  cost Float
+  purchaseDate DateTime
+}
+
+model ConsumptionSession {
+  consumptionSessionId String @id @default(uuid())
+  creator User @relation(fields: [creatorId], references: [id])
+  creatorId String
+  description String
+  date DateTime
+  consumption Consumption[]
+}
+
+model Consumption {
+  consumptionId String @id @default(uuid())
+  session ConsumptionSession @relation(fields: [sessionId], references: [consumptionSessionId])
+  sessionId String
+  drinker User @relation(fields: [consumerId], references: [id])
+  consumerId String
+  quantity Int
+}
+
+model StockTransaction{
+  transactionId String @id @default(uuid())
+  change_amount Int
+  transactionType Type
+  transactionDate DateTime
+}
+
+enum Type {
+  CONSUMPTION
+  PURCHASE
+}
