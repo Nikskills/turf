@@ -27,7 +27,7 @@ model User {
 
 model Purchase {
   purchaseId String @id @default(uuid())
-  purchaser User @relation(fields: [buyerId], references: [id])
+  purchaser User @relation(fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
   quantityOfBeers Int
   cost Float
@@ -36,7 +36,7 @@ model Purchase {
 
 model ConsumptionSession {
   consumptionSessionId String @id @default(uuid())
-  creator User @relation(fields: [creatorId], references: [id])
+  creator User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
   description String
   date DateTime
@@ -45,7 +45,7 @@ model ConsumptionSession {
 
 model Consumption {
   consumptionId String @id @default(uuid())
-  session ConsumptionSession @relation(fields: [sessionId], references: [consumptionSessionId])
+  session ConsumptionSession @relation(fields: [sessionId], references: [consumptionSessionId], onDelete: Cascade)
   sessionId String
   drinker User @relation(fields: [consumerId], references: [id])
   consumerId String
