@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { PrismaClient, Type } = require('@prisma/client');
+import { PrismaClient, Type } from '@prisma/client'
 
 
 const prisma = new PrismaClient()
@@ -37,7 +36,7 @@ async function resetDatabase() {
 
 async function main() {
     await resetDatabase();
-    
+
     console.log(`Start seeding ...`);
 
     // Create users

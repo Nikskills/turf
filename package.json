@@ -48,6 +48,7 @@
 	"prisma": {
 		"seed": "ts-node prisma/seed.ts"
 	},
+	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^5.13.0",
 		"@sveltejs/adapter-node": "^5.0.1"
