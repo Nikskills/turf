@@ -1,9 +1,34 @@
-<!-- <script lang="ts">
-    import type { PageData } from './$types'
-  
+<script lang="ts">
+	import DataWidget from "$lib/components/DataWidget.svelte";
+    import type {PageData} from './$types'
     export let data: PageData
-  </script> -->
+    let gedronken = data.totalBeersDrank
+</script>
 
 <div>
     <h1>persoonlijke stats</h1>
+    <div class="flex flex-row justify-evenly">
+        <div class="flex flex-row justify-between">
+            <div>
+                <div>Recent</div>
+                <div class="flex flex-row">
+                    <div><DataWidget text="Biertjes gedronken deze maand" databasedata={gedronken}/></div>
+                    <div><DataWidget text="Zuipsessies deze maand"/></div>
+                </div>
+                <div>Graphs</div>
+            </div>
+            
+        </div>
+        <div class="flex flex-row justify-between">
+            <div>
+                <div>Oud</div>
+                <div class="flex flex-row">
+                    <div><DataWidget/></div>
+                    <div><DataWidget/></div>
+                </div>
+                <div>Graphs</div>
+            </div>
+            
+        </div>
+    </div>
 </div>
