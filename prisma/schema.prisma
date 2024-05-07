@@ -23,6 +23,7 @@ model User {
   purchases Purchase[]
   Sessions ConsumptionSession[]
   Consumptions Consumption[]
+  StockTransactions StockTransaction[]
 }
 
 model Purchase {
@@ -57,6 +58,8 @@ model StockTransaction{
   change_amount Int
   transactionType Type
   transactionDate DateTime
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade) // Add this line
+  userId String  // Add this line to store the reference to User
 }
 
 enum Type {
