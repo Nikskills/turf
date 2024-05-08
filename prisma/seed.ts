@@ -1,6 +1,5 @@
 import { PrismaClient, Type } from '@prisma/client'
 
-
 const prisma = new PrismaClient()
 
 const userData = [
@@ -24,8 +23,8 @@ const consumptionData = [
 ];
 
 const stockTransactionData = [
-    { change_amount: 15, transactionType: Type.PURCHASE, transactionDate: new Date() },
-    { change_amount: -5, transactionType: Type.CONSUMPTION, transactionDate: new Date() }
+    { change_amount: 15, transactionType: Type.PURCHASE, transactionDate: new Date(), userId: '' },
+    { change_amount: -5, transactionType: Type.CONSUMPTION, transactionDate: new Date(), userId: '' }
 ];
 
 async function resetDatabase() {

@@ -13,25 +13,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model User {
   id String @id @default(uuid())
   name String
   email String @unique
   password String
   balance Float
-  purchases Purchase[]
   Sessions ConsumptionSession[]
   Consumptions Consumption[]
-}
-
-model Purchase {
-  purchaseId String @id @default(uuid())
-  purchaser User @relation(fields: [buyerId], references: [id], onDelete: Cascade)
-  buyerId String
-  quantityOfBeers Int
-  cost Float
-  purchaseDate DateTime
+  Transactions StockTransaction[]
 }
 
 model ConsumptionSession {
@@ -52,9 +42,13 @@ model Consumption {
   quantity Int
 }
 
-model StockTransaction{
+model StockTransaction {
   transactionId String @id @default(uuid())
-  change_amount Int
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  quantity Int
+  cost Float? // Optional: only set for purchases
+  purchaseDate DateTime? // Optional: only set for purchases
   transactionType Type
   transactionDate DateTime
 }
@@ -62,4 +56,5 @@ model StockTransaction{
 enum Type {
   CONSUMPTION
   PURCHASE
+  // Add more transaction types as needed
 }
