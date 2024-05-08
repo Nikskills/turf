@@ -7,11 +7,18 @@ export const load: PageServerLoad = async () => {
         select: {
             transactionDate: true,
             transactionType: true,
-            change_amount: true
+            quantity: true,
+            user: true,
         }
     })
 
-    const consumptions = await prisma.consumption.findMany()
+    const consumptions = await prisma.consumption.findMany({
+        select: {
+            drinker: true,
+            quantity: true,
+            session: true,
+        }
+    })
 
     return {
         stockTransactions, consumptions

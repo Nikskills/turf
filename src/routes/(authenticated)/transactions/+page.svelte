@@ -9,16 +9,25 @@
     items.push({
       datum: transaction.transactionDate.getDate(),
       type: transaction.transactionType,
-      persoon: null,
-      hoeveelheid: transaction.change_amount,
+      persoon: transaction.user.name,
+      hoeveelheid: transaction.quantity,
+    })
+  }
+
+  for (let consumption of consumptions){
+    items.push({
+      datum: consumption.session.date.getDate(),
+      type: "CONSUMPTION",
+      persoon: consumption.drinker.name,
+      hoeveelheid: -consumption.quantity,
     })
   }
 
 
   let columns = [
+      { header: 'Persoon', key: 'persoon' },
       { header: 'Datum', key: 'datum' },
       { header: 'Type', key: 'type' },
-      { header: 'Persoon', key: 'persoon' },
       { header: 'Hoeveelheid', key: 'hoeveelheid' }
   ];
 </script>
