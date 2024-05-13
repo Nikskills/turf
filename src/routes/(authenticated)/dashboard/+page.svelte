@@ -24,7 +24,7 @@
         <div class="font-bold text-3xl">Dashboard</div>
         <div class="flex flex-row gap-4">
             <!-- buttons -->
-            <div><PrimaryButton text="Nieuwe Voorraad" /></div>
+            <div><a href="/drinkingsession"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
             <div><PrimaryButton text="Ik heb gezopen" /></div>
         </div>
     </div>
