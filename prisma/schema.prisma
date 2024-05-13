@@ -50,7 +50,7 @@ model StockTransaction {
   cost Float? // Optional: only set for purchases
   purchaseDate DateTime? // Optional: only set for purchases
   transactionType Type
-  transactionDate DateTime
+  transactionDate DateTime 
 }
 
 enum Type {

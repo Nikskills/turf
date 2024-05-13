@@ -14,7 +14,6 @@
 		"test:integration": "playwright test",
 		"test:unit": "vitest",
 		"seed": "node -r ts-node/register prisma/seed.ts"
-		  
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.28.1",
@@ -51,6 +50,7 @@
 	"type": "module",
 	"dependencies": {
 		"@prisma/client": "^5.13.0",
-		"@sveltejs/adapter-node": "^5.0.1"
+		"@sveltejs/adapter-node": "^5.0.1",
+		"@tailwindcss/forms": "^0.5.7"
 	}
 }
