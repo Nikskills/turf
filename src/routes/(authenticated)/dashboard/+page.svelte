@@ -25,7 +25,7 @@
         <div class="flex flex-row gap-4">
             <!-- Buttons -->
             <div><a href="/newsupply"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
-            <div><PrimaryButton text="Ik heb gezopen" /></div>
+            <div><a href="/drinkingsession"><PrimaryButton text="Ik heb gezopen" /></a></div>
         </div>
     </div>
     <div class="flex flex-col mr-4 justify-around flex-grow">
