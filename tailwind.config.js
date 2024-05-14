@@ -13,6 +13,7 @@ export default {
       'generalbackground': '#F5F4F4',
       'widgetaccent': '#D7DEE1',
       'white': '#FFFFFF',
+      'black': '#000000',
       
       primary: {
         //flowbite
