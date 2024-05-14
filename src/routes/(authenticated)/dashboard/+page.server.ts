@@ -25,7 +25,23 @@ export const load: PageServerLoad = async () => {
     transactions.forEach(transaction => {
         totalStock += transaction.quantity
     });
-    return {sessions, totalStock}
+
+
+    const beers =  await prisma.stockTransaction.findMany({
+        where: {
+            transactionType: 'CONSUMPTION'
+        },
+        select: {
+            quantity: true
+        }
+    });
+
+    let totalBeersDrank = 0;
+    beers.forEach(beer => {
+        totalBeersDrank -= beer.quantity
+    })
+
+    return {sessions, totalStock, totalBeersDrank}
 }
 
 
