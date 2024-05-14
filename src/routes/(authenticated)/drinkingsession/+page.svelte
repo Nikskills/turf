@@ -1,23 +1,38 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    export let data: PageData
+    import { page } from '$app/stores';
+    import { onMount } from 'svelte';
 
-    
+    export let data: PageData
     let counts: Record<string, number> = {};
-    $ : {
+    let beschrijving = '';
+    let isFormValid = false;
+
+    $: {
         data.users.forEach(user => {
-            if (counts[user.name] === undefined){
+            if (counts[user.name] === undefined) {
                 counts[user.name] = 0;
-            }});
+            }
+        });
+        validateForm();
     }
+
     function plus(personName: string) {
         counts[personName] += 1;
+        validateForm();
     }
-    function minus(personName: string){
-        if (counts[personName] > 0){
+
+    function minus(personName: string) {
+        if (counts[personName] > 0) {
             counts[personName] -= 1;
+            validateForm();
+        } else {
+            console.log("cannot be negative"); // Only log if trying to go negative
         }
-        console.log("cannot be negative")
+    }
+
+    function validateForm() {
+        isFormValid = beschrijving.trim() !== '' && Object.values(counts).every(count => count >= 0);
     }
 
 </script>
