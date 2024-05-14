@@ -41,7 +41,7 @@
             <div>
                 <label for="kosten" class="block text-sm font-medium text-gray-900">Totale kosten</label>
                 <input type="number" id="kosten" name="kosten" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul totale kosten in" bind:value={kosten}>
-                {#if errors.kosten}
+                {#if errors.kosten}mt-3
                     <p class="text-red-500 text-xs italic">{errors.kosten}</p>
                 {/if}
             </div>
