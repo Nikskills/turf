@@ -1,57 +1,67 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    export let data: PageData
+    import { page } from '$app/stores';
+    import { onMount } from 'svelte';
 
-    let users = data.users;
-    let hoeveelheid = 0
-    let gekochtDoor = ''
-    let kosten = 0
-    // Error messages
-    let errors = {
-        hoeveelheid: '',
-        gekochtDoor: '',
-        kosten: ''
-    };
+    export let data: PageData
+    let counts: Record<string, number> = {};
+    let beschrijving = '';
+    let isFormValid = false;
+
+    $: {
+        data.users.forEach(user => {
+            if (counts[user.name] === undefined) {
+                counts[user.name] = 0;
+            }
+        });
+        validateForm();
+    }
+
+    function plus(personName: string) {
+        counts[personName] += 1;
+        validateForm();
+    }
+
+    function minus(personName: string) {
+        if (counts[personName] > 0) {
+            counts[personName] -= 1;
+            validateForm();
+        } else {
+            console.log("cannot be negative"); // Only log if trying to go negative
+        }
+    }
+
+    function validateForm() {
+        isFormValid = beschrijving.trim() !== '' && Object.values(counts).every(count => count >= 0);
+    }
 
 </script>
 
-<div class="h-screen w-full flex justify-center items-center bg-gray-100">
-    <form class="w-full max-w-lg bg-white p-8 shadow-md rounded-lg" method="post">
-        <h2 class="text-lg font-semibold text-gray-900 mb-6">Nieuwe Voorraad</h2>
-        <div class="space-y-6">
-            <div>
-                <label for="hoeveelheid" class="block text-sm font-medium text-gray-900">Hoeveelheid kratjes:</label>
-                <input type="number" id="hoeveelheid" name="hoeveelheid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul aantal in" bind:value={hoeveelheid}>
-                {#if errors.hoeveelheid}
-                    <p class="text-red-500 text-xs italic">{errors.hoeveelheid}</p>
-                {/if}
+
+<form method="POST">
+    <div class="h-screen w-full flex justify-center items-center bg-gray-100">
+        <div class="w-full max-w-lg bg-white p-8 shadow-md rounded-lg">
+            <h2 class="text-lg font-semibold text-gray-900 mb-6 flex justify-center">Wie heeft gezopen</h2>
+
+            {#each data.users as person}
+                <div class="flex flex-row justify-evenly items-center border border-black rounded-md my-2">
+                    <div class="text-gray-800 font-medium">{person.name}</div>
+                    <div class="flex flex-row items-center pl-4">
+                        <button type="button" on:click={() => minus(person.name)} class="text-red-500 hover:text-red-700">
+                            -
+                        </button>
+                        <input type="number" name="{person.name}" bind:value={counts[person.name]} class="mx-1 text-lg font-semibold border border-white" readonly />
+                        <button type="button" on:click={() => plus(person.name)} class="text-green-500 hover:text-green-700">
+                            +
+                        </button>
+                    </div>
+                </div>
+            {/each}
+            <div class="mb-3">
+                <label for="beschrijving" class="block text-sm font-medium text-gray-900">Beschrijving</label>
+                <input type="text" id="beschrijving" name="beschrijving" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul beschrijving in">
             </div>
-            <div>
-                <label for="namen" class="block text-sm font-medium text-gray-900">Gekocht door:</label>
-                <select id="namen" name="namen" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" bind:value={gekochtDoor}>
-                    <option value="">Selecteer een gebruiker</option>
-                    {#each data.users as user}
-                        <option value="{user.name}" selected={user.name === gekochtDoor}>{user.name}</option>
-                    {/each}
-                </select>
-                {#if errors.gekochtDoor}
-                    <p class="text-red-500 text-xs italic">{errors.gekochtDoor}</p>
-                {/if}
-            </div>
-            <div>
-                <label for="kosten" class="block text-sm font-medium text-gray-900">Totale kosten</label>
-                <input type="number" id="kosten" name="kosten" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul totale kosten in" bind:value={kosten}>
-                {#if errors.kosten}
-                    <p class="text-red-500 text-xs italic">{errors.kosten}</p>
-                {/if}
-            </div>
-            <div>
-                <label for="datum" class="block text-sm font-medium text-gray-900">Gekocht op</label>
-                <input type="date" id="datum" name="datum" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
-            </div>
-            <div>
-                <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50">Verstuur</button>
-            </div>
+            <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50">Verstuur</button>
         </div>
-    </form>
-</div>
+    </div>
+</form>

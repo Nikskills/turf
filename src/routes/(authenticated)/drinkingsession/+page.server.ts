@@ -1,8 +1,7 @@
 import prisma from '$lib/prisma';
-import type { PageServerLoad, Actions } from './$types';
-import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
+import { redirect, type Actions } from '@sveltejs/kit'
 
-// Load action
 export const load: PageServerLoad = async () => {
     const users = await prisma.user.findMany({
         select: { name: true },
@@ -10,43 +9,81 @@ export const load: PageServerLoad = async () => {
     return { users };
 };
 
-// Actions
+
+
+
 export const actions: Actions = {
     default: async ({ request }) => {
-        const data = await request.formData();
-        const hoeveelheid = parseInt(data.get('hoeveelheid') as string);
-        const gebruiker = data.get('namen') as string;
-        const kosten = parseFloat(data.get('kosten') as string);
-        const gekochtOp = data.get('datum') as string;
-
-        if (!hoeveelheid || !gebruiker || !kosten || !gekochtOp) {
-            return new Response("All fields must be filled out.", { status: 400 });
-        }
-
-        const buyer = await prisma.user.findFirst({
-            where: { name: gebruiker },
-            select: { id: true },
-        });
-
-        if (!buyer) {
-            return new Response(JSON.stringify({ error: "User not found." }), { status: 400, headers: {'Content-Type': 'application/json'} });
-        }
-
-        const gekochtOpDate = new Date(gekochtOp);
-        if (isNaN(gekochtOpDate.getTime())) {
-            return new Response(JSON.stringify({ error: "Invalid date format." }), { status: 400, headers: {'Content-Type': 'application/json'} });
-        }
-
-        await prisma.stockTransaction.create({
-            data: {
-                quantity: hoeveelheid,
-                user: { connect: { id: buyer.id } },
-                purchaseDate: gekochtOpDate,
-                cost: kosten,
-                transactionType: 'PURCHASE',
-                transactionDate: new Date()
+        const formData = await request.formData();
+        const description = formData.get('beschrijving') as string;
+        const counts:  Record<string, number> = {};
+        
+        formData.forEach((value, key) => {
+            if (key !== 'beschrijving') {
+                counts[key] = Number(value);
             }
         });
-        return redirect(303, `/dashboard`);
-    }
-};
+
+
+        for (const user in counts) {
+            if (counts[user] != 0){
+                const drinkerId = await prisma.user.findFirst({
+                    where: { name: user},
+                    select: {id: true}
+                })
+                if (drinkerId != null){ 
+                    createConsumptionSessionAndTransactions(description, drinkerId?.id, counts[user])
+                }
+               
+            }
+        }
+        console.log('Received counts:', counts);
+        console.log('Received description:', description);
+
+        return redirect(303, '/dashboard')
+
+    }    
+}
+
+async function createConsumptionSessionAndTransactions(description: string, userId: string, count: number){
+    const result = await prisma.consumptionSession.create({
+        data: {
+            description: description,
+            date: new Date(),
+            creator: {
+                connect: { id: userId } //klopt niet helemaal maar heb eerst authentication nodig
+            },
+            consumption: {
+                create: [
+                    {
+                        drinker: {
+                            connect: { id: userId }
+                        },
+                        quantity: count,
+                    },
+                ]
+            }
+        },
+        include: {
+            consumption: true // Optionally include related consumptions in the result
+        }
+    });
+
+    const result2 = await prisma.stockTransaction.create({
+        data: {
+            user: {
+                connect: { id: userId }
+            },
+            quantity: -count, // Negative for consumption
+            cost: null, // Optional field, not set for consumption
+            purchaseDate: null, // Optional field, not set for consumption
+            transactionType: "CONSUMPTION",
+            transactionDate: new Date()
+        }
+    })
+    console.log("Created consumption session and transactions", result);
+    console.log("Created transaction", result2)
+}
+
+
+  
