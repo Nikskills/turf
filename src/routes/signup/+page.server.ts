@@ -1,6 +1,5 @@
 import { lucia } from "$lib/server/auth";
 import { fail, redirect } from "@sveltejs/kit";
-import { generateIdFromEntropySize } from "lucia";
 import { hash } from "@node-rs/argon2";
 import type { Actions } from "../$types";
 import prisma from '$lib/prisma'
@@ -13,7 +12,6 @@ export const actions: Actions = {
         const name = formData.get("name") as string;
 		// email must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
 		// keep in mind some database (e.g. mysql) are case insensitive
-        console.log("email: " + email + ", password: " + password + ", name: " + name)
 
 		if (
             typeof email !== "string" ||
@@ -45,7 +43,6 @@ export const actions: Actions = {
             where: {email: email}
         })
         if (!userExists) {
-            console.log("User not found")
             await prisma.user.create({
                 data: {
                     email: email,
@@ -71,9 +68,8 @@ export const actions: Actions = {
                 ...sessionCookie.attributes
             });
     
-            redirect(302, "/dashboard");
+            redirect(302, "/login");
         }
-        console.log("no id generated")
         return new Response()
         
 
