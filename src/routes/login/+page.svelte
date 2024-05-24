@@ -12,15 +12,15 @@
 
                 <div class="mb-4">
                     <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
-                    <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-400  focus:ring-opacity-50" placeholder="Vul je email in" required>
+                    <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-400  focus:ring-opacity-50" placeholder="Vul je email in" required>
                 </div>
 
                 <div class="mb-6">
                     <label for="password" class="block text-sm font-medium text-gray-900">Password</label>
-                    <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring focus:ring-green-400  focus:ring-opacity-50" placeholder="Vul je wachtwoord in" required>
+                    <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-400  focus:ring-opacity-50" placeholder="Vul je wachtwoord in" required>
                 </div>
 
-                <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold  shadow-sm hover:bg-primarybuttondark focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50">Continue</button>
+                <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold  shadow-sm hover:bg-primarybuttondark focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Continue</button>
                 <a href="/signup" class="">Ik heb nog geen account</a>
             </div>
             
