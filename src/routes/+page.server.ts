@@ -5,6 +5,7 @@ import { fail, redirect } from "@sveltejs/kit";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ locals }) => {
+    console.log("checked")
 	if (!locals.session) {
         // If not authenticated, redirect to login page
         throw redirect(302, "/login");
@@ -29,6 +30,6 @@ export const actions: Actions = {
 			path: ".",
 			...sessionCookie.attributes
 		});
-		redirect(302, "/login");
+		throw redirect(302, "/login");
 	}
 };
