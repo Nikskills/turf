@@ -1,6 +1,7 @@
 <script lang="ts">
 	import DataWidget from '$lib/components/DataWidget.svelte';
 	import PrimaryButton from '$lib/components/PrimaryButton.svelte';
+	import SignoutButton from '$lib/components/SignoutButton.svelte';
 	import Table from '$lib/components/Table.svelte';
     import type {PageData} from './$types'
 
@@ -35,6 +36,7 @@
             <!-- Buttons -->
             <div><a href="/newsupply"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
             <div><a href="/drinkingsession"><PrimaryButton text="Ik heb gezopen" /></a></div>
+            <div><SignoutButton/></div>
         </div>
     </div>
     <div class="flex flex-col mr-4 justify-around flex-grow">
