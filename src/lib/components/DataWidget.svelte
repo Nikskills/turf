@@ -1,3 +1,4 @@
+
 <script>
     export let databasedata = 0
     export let text = 'omschrijving'
