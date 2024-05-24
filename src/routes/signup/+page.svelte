@@ -23,5 +23,6 @@
         </div>
 
         <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold text-white shadow-sm hover:bg-primarybuttondark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">Verder</button>
+		<a href="/login">Ik heb al een account</a>
     </div>
 </form>
