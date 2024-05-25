@@ -4,32 +4,35 @@
     export let data: PageData
     let gedronken = data.totalBeersDrank
     let sessies = data.drinkingSessions.length
+    let averageConsumption = data.averageBeersPerSession;
+    let recentGedronken = data.totalBeersDrankThisMonth;
+    let recenteSessies = data.totalDrinkingSessionsThisMonth;
 </script>
 
-<div>
-    <h1>persoonlijke stats</h1>
-    <div class="flex flex-row justify-evenly">
-        <div class="flex flex-row justify-between w-1/4">
-            <div class="w-full">
-                <div>Recent</div>
-                <div class="flex flex-row justify-between">
-                    <div><DataWidget text="Biertjes gedronken deze maand" databasedata={gedronken}/></div>
-                    <div><DataWidget text="Zuipsessies deze maand" databasedata={sessies}/></div>
-                </div>
-                <div>Graphs</div>
+<div class="container mx-auto my-8 p-4 bg-white rounded-lg shadow-lg">
+    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Persoonlijke Stats</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Recent Stats Section -->
+        <div class=" p-6 rounded-lg border-solid border border-black">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Recent</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <DataWidget text="Biertjes gedronken deze maand" databasedata={recentGedronken} />
+                <DataWidget text="Zuipsessies deze maand" databasedata={recenteSessies} />
+                <DataWidget text="Gem. Consumptie per Sessies" databasedata={recentGedronken/recenteSessies} />
             </div>
-            
+            <h3 class="text-xl font-semibold mb-2 text-gray-600">Graphs</h3>
         </div>
-        <div class="flex flex-row justify-between w-1/4">
-            <div class="w-full">
-                <div>Oud</div>
-                <div class="flex flex-row justify-between">
-                    <div><DataWidget/></div>
-                    <div><DataWidget/></div>
-                </div>
-                <div>Graphs</div>
+
+        <!-- Old Stats Section -->
+        <div class=" p-6 rounded-lg border-solid border border-black">
+            <h2 class="text-2xl font-bold mb-4 text-gray-700">Oud</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                <DataWidget text="Totaal gedronken" databasedata={gedronken} />
+                <DataWidget text="Totaal zuipsessies" databasedata={sessies} />
+                <DataWidget text="Gem. Consumptie per Sessies" databasedata={averageConsumption} />
             </div>
-            
+            <h3 class="text-xl font-semibold mb-2 text-gray-600">Graphs</h3>
         </div>
     </div>
 </div>

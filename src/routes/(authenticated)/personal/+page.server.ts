@@ -2,11 +2,8 @@
 import prisma from '$lib/prisma';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async () => {
-    // Assuming `userId` is passed as a parameter to this page/server route
-    // ADD params into async function
-    //const userId = params.userId; 
-    const userId = '230641c9-6add-4b12-b690-2e71c91665c5'
+export const load: PageServerLoad = async ({locals}) => {
+    const userId = locals.user?.id
     // Aggregate the total beers consumed by the specific user
     const beersdrank = await prisma.consumption.aggregate({
         _sum: {
@@ -23,12 +20,22 @@ export const load: PageServerLoad = async () => {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    // Query to find all drinking sessions in the past month for a specific user
-    const drinkingSessions = await prisma.consumptionSession.findMany({
+    const beersDrankThisMonth = await prisma.consumption.aggregate({
+        _sum: {
+            quantity: true,  // We want to sum the 'quantity' field
+        },
         where: {
-            date: {
-                gte: oneMonthAgo, // gte - greater than or equal to one month ago
+            consumerId: userId,  // Filtering to only include consumptions by the specific user
+            session: {
+                date: { gte: oneMonthAgo},  // Filtering to include consumptions from the last month
             },
+        },
+    });
+    const totalBeersDrankThisMonth = beersDrankThisMonth._sum.quantity || 0
+
+    // Query to find all drinking sessions in the past month for a specific user
+    const drinkingSessions= await prisma.consumptionSession.findMany({
+        where: {
             consumption: {
                 some: { // Use 'some' to find sessions where at least one consumption matches
                     consumerId: userId,
@@ -42,7 +49,37 @@ export const load: PageServerLoad = async () => {
         },
     });
 
+    const allSessions = drinkingSessions.length
+    const averageBeersPerSession = totalBeersDrank / allSessions
+
+
+    const drinkingSessionsThisMonth = await prisma.consumptionSession.findMany({
+        where: {
+            AND: [
+                {
+                    consumption: {
+                        some: { // Use 'some' to find sessions where at least one consumption matches
+                            consumerId: userId,
+                        },
+                    },
+                },
+                {
+                    date: {
+                        gte: oneMonthAgo,  // Filtering to include sessions from the last month
+                    },
+                },
+            ],
+        },
+        include: {
+            _count: {
+                select: { consumption: true } // Count of consumptions matching the filter
+            },
+        },
+    });
+
+    const totalDrinkingSessionsThisMonth = drinkingSessionsThisMonth.length
+
     return {
-        totalBeersDrank, drinkingSessions
+        totalBeersDrank, drinkingSessions, averageBeersPerSession, totalDrinkingSessionsThisMonth, totalBeersDrankThisMonth,
     };
 };

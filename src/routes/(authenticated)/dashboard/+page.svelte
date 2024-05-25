@@ -59,7 +59,7 @@
             </div>
             <div class="w-full md:w-1/6"></div>
         </div>
-        <div class="hidden md:block bg-white shadow-lg rounded-lg mx-2 ml-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
+        <div class="hidden md:block bg-white shadow-lg rounded-lg mπx-2 ml-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
             <div class="font-bold text-2xl mb-4 text-gray-800">Zuipsessies</div>
             <Table {items} {columns}/>
         </div>
