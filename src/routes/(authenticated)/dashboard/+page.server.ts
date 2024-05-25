@@ -2,7 +2,10 @@ import prisma from '$lib/prisma'
 import type { PageServerLoad } from './$types'
 
 
-export const load: PageServerLoad = async () => {
+export const load: PageServerLoad = async ({locals}) => {
+
+    const user = locals.user?.name
+
     const sessions = await prisma.consumptionSession.findMany({
         select: {
             description: true,
@@ -41,7 +44,7 @@ export const load: PageServerLoad = async () => {
         totalBeersDrank -= beer.quantity
     })
 
-    return {sessions, totalStock, totalBeersDrank}
+    return {sessions, totalStock, totalBeersDrank, user}
 }
 
 
