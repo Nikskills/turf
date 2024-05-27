@@ -43,14 +43,14 @@
         <!-- Stats row -->
         <div class="flex flex-row flex-wrap">
             <div class="w-full md:w-1/6"></div>
-            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 bg-white px-5 py-5 rounded-md shadow-sm">
+            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 bg-white px-5 py-5 rounded-md shadow-lg">
                 Huis
                 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-6 text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0 font-bold">
                     <div class="w-full"><DataWidget text="Biertjes In Voorraad" databasedata={totalStock}/></div>
                     <div class="w-full"><DataWidget text="Biertjes Gedronken" databasedata={totalBeersDrank} /></div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 bg-white px-5 py-5 rounded-md shadow-sm">
+            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 bg-white px-5 py-5 rounded-md shadow-lg">
                 Persoonlijke Zuipstats
                 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-6 font-bold text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0">
                     <div class="w-full"><DataWidget text="Biertjes Over" databasedata={0} /></div>
@@ -60,7 +60,7 @@
             <div class="w-full md:w-1/6"></div>
         </div>
         <div class="hidden md:block bg-white shadow-lg rounded-lg mπx-2 ml-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
-            <div class="font-bold text-2xl mb-4 text-gray-800">Zuipsessies</div>
+            <div class="font-bold text-2xl mb-4 text-gray-800">Huis Zuipsessies</div>
             <Table {items} {columns}/>
         </div>
     </div>
