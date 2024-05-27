@@ -9,17 +9,17 @@
 
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-900">Email</label>
-            <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Enter your email" required>
+            <input type="email" name="email" id="email" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Email" required>
         </div>
 
         <div class="mb-4">
             <label for="name" class="block text-sm font-medium text-gray-900">Naam</label>
-            <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Enter your name" required>
+            <input type="text" name="name" id="name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Naam" required>
         </div>
 
         <div class="mb-6">
             <label for="password" class="block text-sm font-medium text-gray-900">Wachtwoord</label>
-            <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Enter your password" required>
+            <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring focus:ring-primary focus:ring-opacity-50" placeholder="Wachtwoord" required>
         </div>
 
         <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold text-white shadow-sm hover:bg-primarybuttondark focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50">Verder</button>
