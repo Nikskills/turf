@@ -1,4 +1,5 @@
 <script lang="ts">
+    import BestDrinkers from "$lib/components/BestDrinkers.svelte";
     import DataWidget from "$lib/components/DataWidget.svelte";
     import BarChart from "$lib/components/charts/BarChart.svelte";
     import type { PageData } from './$types';
@@ -7,11 +8,10 @@
   
     let totaalGedronken = data.totalBeersDrank;
     let totaleSessies = data.zuipsessies.length;
-    console.log(data.monthlyBeersDrank)
-    console.log(data.monthlySessions)
-
-  
-    const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    let top3 = data.top3;
+    const labels = [
+      'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+    ];
     let barData = {
       labels: labels,
       datasets: [
@@ -56,27 +56,34 @@
     };
   </script>
   
-  <div class="h-screen">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Huis Stats</h1>
-    <div class="flex flex-row justify-evenly h-full">
-      <div class="flex flex-row justify-between w-3/4 h-full gap-4">
-        <div class="bg-red-100 w-full flex flex-col pl-3">
-          <div class="text-xl font-semibold mb-4">Totale Stats</div>
-          <div class="flex flex-row flex-wrap gap-4 mb-4">
-            <DataWidget databasedata={totaalGedronken} text="Biertjes gedronken" />
-            <DataWidget databasedata={totaleSessies} text="Totale Zuipsessies" />
-          </div>
-          <div class="mt-4">
-            <div class="text-xl font-semibold mb-2">Charts</div>
-            <div class="h-64">
-              <BarChart data={barData} options={barOptions} />
-            </div>
-          </div>
+  <div class="h-full">
+    <h1 class="text-3xl font-bold my-6 text-center text-gray-800">Huis Stats</h1>
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-4">
+      <!-- Totale Stats Section -->
+      <div class="bg-red-100 w-full flex flex-col pl-3 rounded-md pt-2">
+        <div class="text-xl font-semibold mb-4 text-center">Totale Stats</div>
+        <div class="flex flex-wrap gap-4 mb-4 justify-evenly">
+          <DataWidget databasedata={totaalGedronken} text="Biertjes gedronken" />
+          <DataWidget databasedata={totaleSessies} text="Zuipsessies" />
         </div>
-        <div class="bg-blue-100 w-full flex items-center justify-center text-xl font-semibold">
-          Nieuwe stats
+        <div class="flex justify-center"><BestDrinkers bestDrinkers={top3} /></div>
+      </div>
+  
+      <!-- Dit Jaar Section -->
+      <div class="bg-blue-100 w-full flex flex-col pl-3 rounded-md py-2">
+        <div class="text-xl font-semibold mb-4 text-center">Dit Jaar</div>
+        <div class="flex flex-wrap gap-4 mb-4 justify-evenly">
+          <DataWidget databasedata={0} text="Biertjes gedronken" />
+          <DataWidget databasedata={0} text="Zuipsessies" />
+        </div>
+        <div class="mt-4">
+          <div class="h-64 mr-2">
+            <BarChart data={barData} options={barOptions} />
+          </div>
         </div>
       </div>
     </div>
   </div>
+  
+
   
