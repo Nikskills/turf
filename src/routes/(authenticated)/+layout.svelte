@@ -3,12 +3,11 @@
     import "../../app.css"
 </script>
 
-<div class="bg-generalbackground min-h-screen flex overflow-hidden">
-    <aside class="w-16 md:w-18 2xl:w-24 h-full">
+<div class="bg-white min-h-screen flex overflow-hidden">
+    <aside class="w-40 h-screen hidden md:block fixed">
         <Navbar />
     </aside>
-    <main class="flex-grow overflow-hidden">
+    <main class="ml-40 flex-grow overflow-auto mt-3">
         <slot />
     </main>
 </div>
-
