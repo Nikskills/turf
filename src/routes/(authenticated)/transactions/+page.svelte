@@ -6,9 +6,11 @@
   let consumptions = data.consumptions 
   let items = [];
   for (let transaction of transactions){
+    let soort;
+    if (transaction.transactionType === "CONSUMPTION"){soort = "Gezopen"}else{soort = "Gekocht"}
     items.push({
       datum: transaction.transactionDate.getDate(),
-      type: transaction.transactionType,
+      type: soort,
       persoon: transaction.user.name,
       hoeveelheid: transaction.quantity,
     })
@@ -17,7 +19,7 @@
   for (let consumption of consumptions){
     items.push({
       datum: consumption.session.date.getDate(),
-      type: "CONSUMPTION",
+      type: "Gezopen",
       persoon: consumption.drinker.name,
       hoeveelheid: -consumption.quantity,
     })
@@ -32,9 +34,10 @@
   ];
 </script>
 
-<h1>transacties en saaie meuk</h1>
-
-<div>
+<div class="p-6 flex flex-col justify-center items-center">
+  <h1 class="text-3xl font-bold mb-6">Transacties</h1>
+  <div class="overflow-x-auto bg-white rounded-lg p-4 w-2/3">
     <Table {columns} {items} />
+  </div>
 </div>
 
