@@ -32,7 +32,7 @@
     <div class="flex flex-row justify-between mr-4 flex-wrap">
         <!-- Top row -->
         <div class="font-bold text-3xl ml-10 pl-3">Welkom {userName}</div>
-        <div class="flex flex-row gap-4">
+        <div class="flex flex-row gap-4 fixed right-2">
             <!-- Buttons -->
             <div><a href="/newsupply"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
             <div><a href="/drinkingsession"><PrimaryButton text="Ik Heb Gezopen" /></a></div>
