@@ -1,18 +1,19 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    export let data: PageData
+    export let data: PageData;
 
     let users = data.users;
-    let hoeveelheid = 0
-    let gekochtDoor = ''
-    let kosten = 0
+    let kratjes = 0;
+    let gekochtDoor = '';
+    let kosten = 0;
+    let biertjesPerKrat = 0;
     // Error messages
     let errors = {
         hoeveelheid: '',
         gekochtDoor: '',
-        kosten: ''
+        kosten: '',
+        biertjesPerKrat: ''
     };
-
 </script>
 
 <div class="h-screen w-full flex justify-center items-center bg-gray-100">
@@ -20,10 +21,17 @@
         <h2 class="text-lg font-semibold text-gray-900 mb-6">Nieuwe Voorraad</h2>
         <div class="space-y-6">
             <div>
-                <label for="hoeveelheid" class="block text-sm font-medium text-gray-900">Hoeveelheid kratjes:</label>
-                <input type="number" id="hoeveelheid" name="hoeveelheid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul aantal in" bind:value={hoeveelheid}>
+                <label for="kratjes" class="block text-sm font-medium text-gray-900">Hoeveelheid kratjes:</label>
+                <input type="number" id="kratjes" name="hoeveelheid" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul aantal in" bind:value={kratjes}>
                 {#if errors.hoeveelheid}
                     <p class="text-red-500 text-xs italic">{errors.hoeveelheid}</p>
+                {/if}
+            </div>
+            <div>
+                <label for="biertjesPerKrat" class="block text-sm font-medium text-gray-900">Hoeveelheid biertjes per krat:</label>
+                <input type="number" id="biertjesPerKrat" name="biertjesPerKrat" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul aantal in" bind:value={biertjesPerKrat}>
+                {#if errors.biertjesPerKrat}
+                    <p class="text-red-500 text-xs italic">{errors.biertjesPerKrat}</p>
                 {/if}
             </div>
             <div>
@@ -40,8 +48,8 @@
             </div>
             <div>
                 <label for="kosten" class="block text-sm font-medium text-gray-900">Totale kosten</label>
-                <input type="number" id="kosten" name="kosten" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul totale kosten in" bind:value={kosten}>
-                {#if errors.kosten}mt-3
+                <input type="text" id="kosten" name="kosten" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50" placeholder="Vul totale kosten in" bind:value={kosten}>
+                {#if errors.kosten}
                     <p class="text-red-500 text-xs italic">{errors.kosten}</p>
                 {/if}
             </div>

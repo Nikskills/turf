@@ -4,9 +4,9 @@
   
     export let data: PageData;
   
-    let gedronken = data.totalBeersDrank;
-    let sessies = data.drinkingSessions.length;
-    let averageConsumption = data.averageBeersPerSession;
+    let gedronken = data.totalBeersDrank.toString();
+    let sessies = data.drinkingSessions.length.toString();
+    let averageConsumption = data.averageBeersPerSession.toFixed(2);
     let recentGedronken = data.totalBeersDrankThisMonth;
     let recenteSessies = data.totalDrinkingSessionsThisMonth;
   </script>
@@ -19,9 +19,9 @@
       <div class="bg-blue-100 p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center">Recent</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <DataWidget text="Biertjes gedronken deze maand" databasedata={recentGedronken} />
-          <DataWidget text="Zuipsessies deze maand" databasedata={recenteSessies} />
-          <DataWidget text="Gem. Consumptie per Sessies" databasedata={recentGedronken / recenteSessies} />
+          <DataWidget text="Biertjes gedronken deze maand" databasedata={recentGedronken.toString()} />
+          <DataWidget text="Zuipsessies deze maand" databasedata={recenteSessies.toString()} />
+          <DataWidget text="Gem. Consumptie per Sessies" databasedata={(recentGedronken / recenteSessies).toFixed(2)} />
         </div>
       </div>
   

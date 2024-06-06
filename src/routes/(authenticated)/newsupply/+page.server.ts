@@ -1,6 +1,6 @@
 import prisma from '$lib/prisma';
 import type { PageServerLoad, Actions } from './$types';
-import { redirect } from '@sveltejs/kit';
+
 
 // Load action
 export const load: PageServerLoad = async () => {
@@ -14,7 +14,9 @@ export const load: PageServerLoad = async () => {
 export const actions: Actions = {
     default: async ({ request }) => {
         const data = await request.formData();
-        const hoeveelheid = parseInt(data.get('hoeveelheid') as string);
+        const kratjes = parseInt(data.get('hoeveelheid') as string);
+        const biertjesPerKrat = parseInt(data.get('biertjesPerKrat') as string);
+        const hoeveelheid = kratjes * biertjesPerKrat;
         const gebruiker = data.get('namen') as string;
         const kosten = parseFloat(data.get('kosten') as string);
         const gekochtOp = data.get('datum') as string;
@@ -29,12 +31,12 @@ export const actions: Actions = {
         });
 
         if (!buyer) {
-            return new Response(JSON.stringify({ error: "User not found." }), { status: 400, headers: {'Content-Type': 'application/json'} });
+            return new Response(JSON.stringify({ error: "User not found." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
         }
 
         const gekochtOpDate = new Date(gekochtOp);
         if (isNaN(gekochtOpDate.getTime())) {
-            return new Response(JSON.stringify({ error: "Invalid date format." }), { status: 400, headers: {'Content-Type': 'application/json'} });
+            return new Response(JSON.stringify({ error: "Invalid date format." }), { status: 400, headers: { 'Content-Type': 'application/json' } });
         }
 
         await prisma.stockTransaction.create({
@@ -49,13 +51,19 @@ export const actions: Actions = {
         });
 
         await prisma.user.update({
-            where: { id: buyer.id},
+            where: { id: buyer.id },
             data: {
                 balance: {
                     increment: kosten
                 }
             }
-        })
-        return redirect(303, `/dashboard`);
+        });
+
+        return {
+            status: 303,
+            headers: {
+                location: '/dashboard'
+            }
+        };
     }
 };

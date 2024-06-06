@@ -1,5 +1,5 @@
 <script>
-    export let databasedata = 0;
+    export let databasedata = "0";
     export let text = 'Omschrijving';
     import { Card } from 'flowbite-svelte';
 </script>
