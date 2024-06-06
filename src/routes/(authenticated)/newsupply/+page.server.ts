@@ -47,6 +47,15 @@ export const actions: Actions = {
                 transactionDate: new Date()
             }
         });
+
+        await prisma.user.update({
+            where: { id: buyer.id},
+            data: {
+                balance: {
+                    increment: kosten
+                }
+            }
+        })
         return redirect(303, `/dashboard`);
     }
 };

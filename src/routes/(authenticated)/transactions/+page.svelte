@@ -11,7 +11,7 @@
   for (let user of users){
     userData.push({
       naam: user.name,
-      balans: user.balance
+      balans: user.balance.toFixed(2),
     })
   }
 
