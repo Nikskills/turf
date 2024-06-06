@@ -23,8 +23,15 @@ export const load: PageServerLoad = async () => {
         }
     })
 
+    const users = await prisma.user.findMany({
+        select: {
+            name: true,
+            balance: true,
+        }
+    })
+
     return {
-        stockTransactions, consumptions
+        stockTransactions, consumptions, users
     }
 
 }

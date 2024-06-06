@@ -4,7 +4,17 @@
   export let data: PageData
   let transactions = data.stockTransactions
   let consumptions = data.consumptions 
+  let users = data.users
   let items = [];
+  let userData = [];
+
+  for (let user of users){
+    userData.push({
+      naam: user.name,
+      balans: user.balance
+    })
+  }
+
   for (let transaction of transactions){
     let soort;
     if (transaction.transactionType === "CONSUMPTION"){soort = "Gezopen"}else{soort = "Gekocht"}
@@ -26,18 +36,27 @@
   }
 
 
-  let columns = [
+  let columns1 = [
       { header: 'Persoon', key: 'persoon' },
       { header: 'Datum', key: 'datum' },
       { header: 'Type', key: 'type' },
       { header: 'Hoeveelheid', key: 'hoeveelheid' }
   ];
+  let columns2 = [
+    { header: 'Naam', key: 'naam'}, 
+    { header: 'Balans', key: 'balans'}
+    ];
 </script>
 
 <div class="p-6 flex flex-col justify-center items-center">
   <h1 class="text-3xl font-bold mb-6">Transacties</h1>
-  <div class="overflow-x-auto bg-white rounded-lg p-4 w-2/3">
-    <Table {columns} {items} />
+  <div class="flex flex-row w-2/3">
+    <div class="overflow-x-auto bg-white rounded-lg p-4">
+      <Table columns={columns1} {items} />
+    </div>
+    <div class="overflow-x-auto bg-white rounded-lg p-4">
+      <Table columns={columns2} items={userData} />
+    </div>
   </div>
 </div>
 
