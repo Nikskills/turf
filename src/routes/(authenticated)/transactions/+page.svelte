@@ -50,11 +50,11 @@
 
 <div class="p-6 flex flex-col justify-center items-center">
   <h1 class="text-3xl font-bold mb-6">Transacties</h1>
-  <div class="flex flex-row w-2/3">
-    <div class="overflow-x-auto bg-white rounded-lg p-4">
+  <div class="flex flex-row w-3/4">
+    <div class="overflow-x-auto bg-white rounded-lg w-3/4">
       <Table columns={columns1} {items} />
     </div>
-    <div class="overflow-x-auto bg-white rounded-lg p-4">
+    <div class="overflow-x-auto bg-white rounded-lg w-1/4">
       <Table columns={columns2} items={userData} />
     </div>
   </div>
