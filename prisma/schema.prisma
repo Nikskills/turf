@@ -23,7 +23,10 @@ model User {
   Consumptions Consumption[]
   Transactions StockTransaction[]
   sessions Session[]
+  settlementsAsDebtor   Settlement[] @relation("Debtor")
+  settlementsAsCreditor Settlement[] @relation("Creditor")
 }
+
 
 model ConsumptionSession {
   consumptionSessionId String @id @default(uuid())
@@ -64,4 +67,17 @@ model Session {
   userId    String
   expiresAt DateTime
   user      User     @relation(references: [id], fields: [userId], onDelete: Cascade)
+}
+
+model Settlement {
+  id          String   @id @default(uuid())
+  debtorId    String  
+  creditorId  String
+  amount      Float
+  paid        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  debtor User @relation("Debtor", references: [id], fields: [debtorId], onDelete: Cascade)
+  creditor User @relation("Creditor", references: [id], fields: [creditorId], onDelete: Cascade)
 }

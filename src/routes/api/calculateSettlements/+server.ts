@@ -1,33 +1,60 @@
-import prisma  from '$lib/prisma'; // Adjust the import according to your project structure
+import prisma from '$lib/prisma'; // Ensure correct path to prisma client
+import type { RequestHandler } from '@sveltejs/kit';
 import { json } from '@sveltejs/kit';
 
-// Function to fetch balances from the database
-async function getBalances() {
+// POST handler to calculate and create settlements
+export const POST: RequestHandler = async () => {
+  // Check if there are any unpaid settlements
+  const unpaidSettlements = await prisma.settlement.findMany({
+    where: { paid: false },
+    include: {
+      debtor: {
+        select: { name: true }
+      },
+      creditor: {
+        select: { name: true }
+      }
+    },
+  });
+
+  if (unpaidSettlements.length > 0) {
+    const formattedUnpaidSettlements = unpaidSettlements.map(settlement => ({
+      debtorName: settlement.debtor.name,
+      creditorName: settlement.creditor.name,
+      amount: settlement.amount,
+      paid: settlement.paid
+    }));
+
+    return json(
+      { 
+        error: 'There are unpaid settlements. Please settle all previous records before recalculating.',
+        settlements: formattedUnpaidSettlements 
+      },
+    );
+  }
+
   const balances = await prisma.user.findMany({
     where: {
       NOT: { balance: 0 },
     },
     select: {
-      id: true, // Assuming you have an id field
+      id: true,
       name: true,
       balance: true,
     },
   });
-  return balances;
-}
 
-// Function to calculate settlements
-function calculateSettlements(balances) {
-  const debtors = [];
-  const creditors = [];
+  const debtors = balances.filter(user => user.balance < 0).map(user => ({
+    userId: user.id,
+    name: user.name,
+    amount: Math.abs(user.balance),
+  }));
 
-  balances.forEach(user => {
-    if (user.balance < 0) {
-      debtors.push({ userId: user.id, name: user.name, amount: Math.abs(user.balance) });
-    } else if (user.balance > 0) {
-      creditors.push({ userId: user.id, name: user.name, amount: user.balance });
-    }
-  });
+  const creditors = balances.filter(user => user.balance > 0).map(user => ({
+    userId: user.id,
+    name: user.name,
+    amount: user.balance,
+  }));
 
   const settlements = [];
 
@@ -38,10 +65,9 @@ function calculateSettlements(balances) {
     const settlementAmount = Math.min(debtor.amount, creditor.amount);
     settlements.push({
       debtorId: debtor.userId,
-      debtorName: debtor.name,
       creditorId: creditor.userId,
-      creditorName: creditor.name,
       amount: settlementAmount,
+      paid: false,
     });
 
     debtor.amount -= settlementAmount;
@@ -51,12 +77,34 @@ function calculateSettlements(balances) {
     if (creditor.amount === 0) creditors.shift();
   }
 
-  return settlements;
-}
+  if (settlements.length > 0) {
+    await prisma.settlement.createMany({
+      data: settlements,
+    });
+  }
 
-// API endpoint to handle calculation requests
-export async function POST() {
-  const balances = await getBalances();
-  const settlements = calculateSettlements(balances);
-  return json({ settlements });
-}
+  // Fetch the created settlements with user names included
+  const fetchedSettlements = await prisma.settlement.findMany({
+    include: {
+      debtor: {
+        select: { name: true }
+      },
+      creditor: {
+        select: { name: true }
+      }
+    },
+    orderBy: {
+      createdAt: 'desc'
+    }
+  });
+
+  // Format the response to include user names
+  const formattedSettlements = fetchedSettlements.map(fetchedSettlement => ({
+    debtorName: fetchedSettlement.debtor.name,
+    creditorName: fetchedSettlement.creditor.name,
+    amount: fetchedSettlement.amount,
+    paid: fetchedSettlement.paid
+  }));
+
+  return json({ settlements: formattedSettlements });
+};

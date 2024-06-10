@@ -25,7 +25,7 @@
               {#each items as item}
                   <tr class="bg-white border-b">
                       {#each columns as column}
-                          <td class="py-4 px-6">{item[column.key]}</td>
+                          <td class="py-4 px-6">{@html item[column.key]}</td>
                       {/each}
                   </tr>
               {/each}
