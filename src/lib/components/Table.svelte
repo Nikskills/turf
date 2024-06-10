@@ -14,7 +14,7 @@
 <div class="flex flex-col mx-5">
   <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
       <table class="w-full text-sm text-left text-gray-500 bg-generalbackground">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 bg-widgetaccent">
+          <thead class="text-xs text-gray-700 uppercase bg-widgetaccent">
               <tr>
                   {#each columns as column}
                       <th scope="col" class="py-3 px-6">{column.header}</th>

@@ -13,7 +13,7 @@ export const load: PageServerLoad = async () => {
         orderBy:{
             transactionDate: "desc"
         } 
-})
+    })
 
     const consumptions = await prisma.consumption.findMany({
         select: {
