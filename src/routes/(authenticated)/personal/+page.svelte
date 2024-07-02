@@ -1,52 +1,94 @@
 <script lang="ts">
+    import BarChart from "$lib/components/charts/BarChart.svelte";
     import DataWidget from "$lib/components/DataWidget.svelte";
+	  import { writable } from "svelte/store";
     import type { PageData } from './$types';
+
   
     export let data: PageData;
-  
-    let gedronken = data.totalBeersDrank.toString();
-    let sessies = data.drinkingSessions.length.toString();
-    let averageConsumption = data.averageBeersPerSession.toFixed(2);
-    let recentGedronken = data.totalBeersDrankThisMonth;
-    let recenteSessies = data.totalDrinkingSessionsThisMonth;
+    let beersDrank = data.beersDrank
+    let zuipsessies = data.zuipsessies.length
+    const today = new Date();
+    const daysInMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0).getDate();
+    let labels = Array(daysInMonth).fill(0)
+    for (let i = 0; i < daysInMonth; i++){
+      labels[i] = (i+1).toString();
+    }
+    let barData = {
+      labels: labels,
+      datasets: [
+        {
+          label: 'Biertjes Gedronken',
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1,
+          data: data.dailyBeersDrank, // Example data points
+        },]
+    }
+    const activeTab = writable('tab1')
+    const setTab = (tab: string) => {
+	    activeTab.set(tab);
+	  };
+
+    //BarChart options
+    let barOptions = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'top',
+        },
+        title: {
+          display: true,
+          text: 'Dit Jaar',
+        },
+      },
+      scales: {
+        x: {
+          beginAtZero: true,
+        },
+        y: {
+          beginAtZero: true,
+        },
+      },
+    };
+    $: {
+      if ($activeTab == 'tab1') {
+        barOptions.plugins.title.text = "Deze Maand"
+      }else if ($activeTab == 'tab2') {
+        barOptions.plugins.title.text = "Altijd"
+      }
+    }
+
   </script>
   
-  <div class="container mx-auto my-8 p-4">
-    <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Persoonlijke Stats</h1>
-  
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Recent Stats Section -->
-      <div class="bg-blue-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center">Recent</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <DataWidget text="Biertjes gedronken deze maand" databasedata={recentGedronken.toString()} />
-          <DataWidget text="Zuipsessies deze maand" databasedata={recenteSessies.toString()} />
-          <DataWidget text="Gem. Consumptie per Sessies" databasedata={(recentGedronken / recenteSessies).toFixed(2)} />
-        </div>
+  <div class="container mx-auto h-full">
+    <div class="p-6 flex flex-col items-center h-full">
+      <h1 class="text-3xl font-bold mb-6">Mijn Statistieken</h1>
+      <div class="justify-start items-start pl-6 w-3/4 mb-2">
+        <button class="pb-2 mr-2" class:border-b-2={$activeTab === 'tab1'} class:border-primarybutton={$activeTab === 'tab1'} class:border-transparent={$activeTab !== 'tab1'} on:click={() => setTab('tab1')}>
+        Afgelopen Maand
+        </button>
+        <button class="pb-2" class:border-b-2={$activeTab === 'tab2'} class:border-primarybutton={$activeTab === 'tab2'} class:border-transparent={$activeTab !== 'tab2'} on:click={() => setTab('tab2')}>
+        Altijd
+        </button>
       </div>
-  
-      <!-- Old Stats Section -->
-      <div class="bg-purple-100 p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center">Oud</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-          <DataWidget text="Totaal gedronken" databasedata={gedronken} />
-          <DataWidget text="Totaal zuipsessies" databasedata={sessies} />
-          <DataWidget text="Gem. Consumptie per Sessies" databasedata={averageConsumption} />
-        </div>
+      <div class="flex flex-row w-3/4 h-full">
+        {#if $activeTab === 'tab1'}
+          <div class="border border-black h-full w-full">
+            <div><BarChart options={barOptions} data={barData}/></div>
+            <div><DataWidget /></div>
+          </div>
+        {:else if $activeTab === 'tab2'}
+          <div class="border border-black h-full w-full">
+            <div><BarChart options={barOptions}/></div>
+            <div><DataWidget /></div>
+          </div>
+        {/if}
       </div>
-  
-      <!-- Recent Graph Section -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center">Recent Graphs</h2>
-        <div class="h-64 bg-blue-50 rounded-md shadow-sm flex items-center justify-center text-gray-500">Graphs Placeholder</div>
       </div>
-  
-      <!-- Old Graph Section -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold mb-4 text-gray-700 text-center">Oude Graphs</h2>
-        <div class="h-64 bg-purple-50 rounded-md shadow-sm flex items-center justify-center text-gray-500">Graphs Placeholder</div>
-      </div>
-    </div>
+      
   </div>
 
 

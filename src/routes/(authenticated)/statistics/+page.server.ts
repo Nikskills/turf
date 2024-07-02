@@ -35,7 +35,7 @@ export const load: PageServerLoad = async () => {
 
     // Process the fetched data to calculate the total beers drank and sessions per month
     consumptionSessions.forEach(session => {
-        const month = session.date.getMonth(); // getMonth returns 0-based index
+        const month = session.date.getMonth();
         session.consumption.forEach(consumption => {
             monthlyBeersDrank[month] += consumption.quantity;
         });

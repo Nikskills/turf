@@ -63,8 +63,8 @@
       <div class="bg-red-100 w-full flex flex-col pl-3 rounded-md pt-2">
         <div class="text-xl font-semibold mb-4 text-center">Totale Stats</div>
         <div class="flex flex-wrap gap-4 mb-4 justify-evenly">
-          <DataWidget databasedata={totaalGedronken} text="Biertjes gedronken" />
-          <DataWidget databasedata={totaleSessies} text="Zuipsessies" />
+          <DataWidget databasedata={totaalGedronken.toString()} text="Biertjes gedronken" />
+          <DataWidget databasedata={totaleSessies.toString()} text="Zuipsessies" />
         </div>
         <div class="flex justify-center"><BestDrinkers bestDrinkers={top3} /></div>
       </div>
@@ -73,8 +73,8 @@
       <div class="bg-blue-100 w-full flex flex-col pl-3 rounded-md py-2">
         <div class="text-xl font-semibold mb-4 text-center">Dit Jaar</div>
         <div class="flex flex-wrap gap-4 mb-4 justify-evenly">
-          <DataWidget databasedata={0} text="Biertjes gedronken" />
-          <DataWidget databasedata={0} text="Zuipsessies" />
+          <DataWidget databasedata={"0"} text="Biertjes gedronken" />
+          <DataWidget databasedata={"0"} text="Zuipsessies" />
         </div>
         <div class="mt-4">
           <div class="h-64 mr-2">
