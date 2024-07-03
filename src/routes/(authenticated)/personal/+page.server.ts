@@ -5,7 +5,8 @@ export const load: PageServerLoad = async ({locals}) => {
     const userId = locals.user?.id as string
     // This months
     const{beersDrank, zuipsessies, dailyBeersDrank} = await thisMonth(userId)
-    return {beersDrank, zuipsessies, dailyBeersDrank}
+    const{beersDrankForever, allZuipsessies} = await forever(userId)
+    return {beersDrank, zuipsessies, dailyBeersDrank, beersDrankForever, allZuipsessies}
 };
 
 async function thisMonth(userId: string){
@@ -47,4 +48,25 @@ async function thisMonth(userId: string){
 
     })
     return {beersDrank, zuipsessies, dailyBeersDrank}
+}
+
+async function forever(userId: string){
+    const [beersDrankForever, allZuipsessies] = await Promise.all([
+        prisma.consumption.aggregate({
+            where: {
+                consumerId: userId,
+                
+            },
+            _sum: { quantity: true }
+        }),
+        prisma.consumptionSession.findMany({
+            where: { 
+                consumption: {
+                    every: {consumerId: userId}
+                } 
+            },
+            include: { consumption: true }
+        }),
+    ]);
+    return {beersDrankForever, allZuipsessies }
 }
