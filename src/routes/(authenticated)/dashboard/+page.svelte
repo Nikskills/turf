@@ -6,7 +6,7 @@
     import type {PageData} from './$types'
 
     export let data: PageData
-
+    let userName = data.user
     let totalBeersDrank = (data.totalBeersDrank)
     let items: any[] = [];
     const totalStock = data.totalStock
@@ -28,39 +28,43 @@
     ];
 </script>
 
-<div class="flex flex-col w-full mt-5 h-full flex-wrap">
+<div class="flex flex-col w-full h-full overflow-hidden">
     <div class="flex flex-row justify-between mr-4 flex-wrap">
         <!-- Top row -->
-        <div class="font-bold text-3xl">Dashboard</div>
-        <div class="flex flex-row gap-4">
+        <div class="font-bold text-3xl ml-10 pl-3">Welkom {userName}</div>
+        <div class="flex flex-row gap-4 fixed right-2">
             <!-- Buttons -->
             <div><a href="/newsupply"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
-            <div><a href="/drinkingsession"><PrimaryButton text="Ik heb gezopen" /></a></div>
+            <div><a href="/drinkingsession"><PrimaryButton text="Ik Heb Gezopen" /></a></div>
             <div><SignoutButton/></div>
         </div>
     </div>
-    <div class="flex flex-col mr-4 justify-around flex-grow">
+    <div class="flex flex-col mt-20 mr-4 justify-around flex-grow overflow-auto">
         <!-- Stats row -->
-        <div class="flex flex-row flex-wrap">
+        <div class="flex flex-row mt-5">
             <div class="w-full md:w-1/6"></div>
-            <div class="w-full md:w-1/3 font-bold text-xl flex flex-col justify-center">
+            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 px-5 py-5 rounded-md shadow-lg bg-blue-50">
                 Huis
-                <div class="flex flex-col md:flex-row font-normal text-lg pt-4 gap-4 md:gap-10 flex-wrap sm:mx-2 md:mx-0">
-                    <div class="w-full"><DataWidget text="Biertjes Over" databasedata={totalStock}/></div>
-                    <div class="w-full"><DataWidget text="Totaal Gedronken" databasedata={totalBeersDrank} /></div>
+                <div class="flex flex-wrap lg:grid lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 mt-6 text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0 font-bold">
+                    <div class="w-full"><DataWidget text="Biertjes In Voorraad" databasedata={totalStock}/></div>
+                    <div class="w-full"><DataWidget text="Biertjes Gedronken" databasedata={totalBeersDrank} /></div>
                 </div>
             </div>
-            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0">
+            <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 px-5 py-5 rounded-md shadow-lg bg-pink-50">
                 Persoonlijke Zuipstats
-                <div class="flex flex-col md:flex-row font-normal text-lg pt-4 gap-4 md:gap-10 flex-wrap">
+                <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-6 font-bold text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0">
                     <div class="w-full"><DataWidget text="Biertjes Over" databasedata={0} /></div>
                     <div class="w-full"><DataWidget text="Totaal Gedronken" databasedata={0} /></div>
                 </div>
             </div>
             <div class="w-full md:w-1/6"></div>
         </div>
-        <div class="md:block hidden">
-            <Table {items} {columns}/>
+        <div class="flex justify-center align-center">
+            <div class="hidden md:block bg-purple-50 shadow-lg w-2/3 rounded-lg mt-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
+                <div class="font-bold text-2xl mb-4 text-gray-800">Huis Zuipsessies</div>
+                <Table {items} {columns}/>
+            </div>
         </div>
     </div>
 </div>
+

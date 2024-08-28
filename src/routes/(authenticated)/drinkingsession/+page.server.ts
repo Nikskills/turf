@@ -51,7 +51,7 @@ async function createConsumptionSessionAndTransactions(description: string, user
             description: description,
             date: new Date(),
             creator: {
-                connect: { id: userId } //klopt niet helemaal maar heb eerst authentication nodig
+                connect: { id: userId } 
             },
             consumption: {
                 create: [
@@ -74,15 +74,33 @@ async function createConsumptionSessionAndTransactions(description: string, user
             user: {
                 connect: { id: userId }
             },
-            quantity: -count, // Negative for consumption
-            cost: null, // Optional field, not set for consumption
-            purchaseDate: null, // Optional field, not set for consumption
+            quantity: -count, 
+            cost: null, 
+            purchaseDate: null, 
             transactionType: "CONSUMPTION",
             transactionDate: new Date()
         }
     })
     console.log("Created consumption session and transactions", result);
     console.log("Created transaction", result2)
+    const price = await prisma.stockTransaction.findFirst({
+        select: {
+            cost: true,
+            quantity: true
+        }
+    })
+    if (price != null && price.cost != null) {
+        const pricePerBeer = price.cost / price.quantity
+        await prisma.user.update({
+            where: { id: userId},
+            data : {
+                balance: {
+                    increment: -(count * pricePerBeer).toPrecision(3)
+                }
+            }
+        })
+    }
+     
 }
 
 

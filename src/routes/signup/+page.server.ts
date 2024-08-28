@@ -9,7 +9,8 @@ export const actions: Actions = {
 		const formData = await event.request.formData();
 		const email = formData.get("email");
 		const password = formData.get("password");
-        const name = formData.get("name") as string;
+        let name = formData.get("name") as string;
+        name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
 		// email must be between 4 ~ 31 characters, and only consists of lowercase letters, 0-9, -, and _
 		// keep in mind some database (e.g. mysql) are case insensitive
 
