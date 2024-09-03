@@ -25,6 +25,7 @@ model User {
   sessions Session[]
   settlementsAsDebtor   Settlement[] @relation("Debtor")
   settlementsAsCreditor Settlement[] @relation("Creditor")
+  image String?
 }
 
 
