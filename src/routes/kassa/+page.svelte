@@ -2,10 +2,13 @@
     import type { PageData } from "./$types";
     import "../../app.css"
 	import Table from "$lib/components/Table.svelte";
+	import Streepknop from "$lib/components/Streepknop.svelte";
+	import { POST } from "../api/calculateSettlements/+server";
     export let data: PageData
 
 
     let items: any[] = [];
+    let counts: Record<string, number> = {};
     for (let i = 0; i < data.sessions.length; i++) {
         for (let j = 0; j < data.sessions[i].consumption.length; j++) {
             items.push({
@@ -22,24 +25,44 @@
     { header: 'Beschrijving', key: 'beschrijving' },
     { header: 'Datum', key: 'datum' }
     ];
+
+    $: {
+        data.users.forEach(user =>{
+            if (counts[user.name] === undefined) {
+                counts[user.name] = 0;
+            }
+        })
+    }
+
+    function count(name: string) {
+        counts[name]++;
+    }
+
 </script>
 
-<div class="min-h-screen flex flex-col w-screen">
+<form method="POST"  class="max-h-screen flex flex-col w-screen overflow-hidden">
     <div class="flex-grow h-full">
         <div class="grid grid-cols-1 min-h-screen justify-between">
-            <div class="flex justify-center text-center my-4">Hoi! Doe even strepen AUB</div>
+            <div class="flex justify-center text-center my-4">Hoi! Streep AUB je drankjes! Vergeet ook niet op verstuur te klikken, anders doet ie niks</div>
             <div>
-                <div class="flex flex-row justify-between mx-1">
+                <div class="flex flex-row flex-wrap justify-between mx-4">
                     {#each data.users as person}
-                        <div class="justify-between">{person.name}</div>
+                    <div class="flex flex-col">
+                        <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} /></button>
+                        <input type="number" name="{person.name}" class="mx-1 border border-white text-center" id={person.name} bind:value={counts[person.name]} readonly>
+                    </div>
                     {/each}
+                </div>
+                <div></div>
+                <div class="flex justify-center w-full my-5"> 
+                    <button type="submit" class="w-1/4 rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 hover:text-white focus:ring-opacity-50">Verstuur</button> 
                 </div>
             </div>
             <div class="flex justify-center align-center">
-                <div class="w-3/4 rounded-lg mt-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
+                <div class="hidden md:block w-3/4 rounded-lg mt-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
                     <Table {items} {columns}/>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
