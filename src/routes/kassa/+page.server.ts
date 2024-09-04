@@ -27,7 +27,6 @@ export const load: PageServerLoad = async ({ locals }) => {
         },
         take: 6,
         select: {
-            description: true,
             date: true,
             consumption: {
                 select: {

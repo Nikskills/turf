@@ -3,7 +3,6 @@
     import "../../app.css"
 	import Table from "$lib/components/Table.svelte";
 	import Streepknop from "$lib/components/Streepknop.svelte";
-	import { POST } from "../api/calculateSettlements/+server";
     export let data: PageData
 
 
@@ -12,7 +11,6 @@
     for (let i = 0; i < data.sessions.length; i++) {
         for (let j = 0; j < data.sessions[i].consumption.length; j++) {
             items.push({
-                beschrijving: data.sessions[i].description,
                 bier: data.sessions[i].consumption[j].quantity,
                 naam: data.sessions[i].consumption[j].drinker.name,
                 datum: data.sessions[i].date.getDate() + "-" + data.sessions[i].date.getMonth()+ "-" + data.sessions[i].date.getFullYear()
@@ -22,7 +20,6 @@
     let columns = [
     { header: 'Naam', key: 'naam' },
     { header: '# Bier', key: 'bier' },
-    { header: 'Beschrijving', key: 'beschrijving' },
     { header: 'Datum', key: 'datum' }
     ];
 
@@ -43,19 +40,19 @@
 <form method="POST"  class="max-h-screen flex flex-col w-screen overflow-hidden">
     <div class="flex-grow h-full">
         <div class="grid grid-cols-1 min-h-screen justify-between">
-            <div class="flex justify-center text-center my-4">Hoi! Streep AUB je drankjes! Vergeet ook niet op verstuur te klikken, anders doet ie niks</div>
+            <div class="flex justify-center font-bold text-center my-4">Hoi! Streep AUB je drankjes! Vergeet ook niet op verstuur te klikken, anders doet ie niks</div>
             <div>
                 <div class="flex flex-row flex-wrap justify-between mx-4">
                     {#each data.users as person}
                     <div class="flex flex-col">
-                        <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} /></button>
-                        <input type="number" name="{person.name}" class="mx-1 border border-white text-center" id={person.name} bind:value={counts[person.name]} readonly>
+                        <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} source="src/lib/images/Huisgenootjes/Snack.jpeg" /></button>
+                        <input type="number" name="{person.name}" class="border border-white justify-center text-center" id={person.name} bind:value={counts[person.name]} readonly>
                     </div>
                     {/each}
                 </div>
                 <div></div>
                 <div class="flex justify-center w-full my-5"> 
-                    <button type="submit" class="w-1/4 rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 hover:text-white focus:ring-opacity-50">Verstuur</button> 
+                    <button type="submit" class="w-1/4 rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm ">Verstuur</button> 
                 </div>
             </div>
             <div class="flex justify-center align-center">
