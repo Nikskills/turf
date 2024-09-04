@@ -46,15 +46,15 @@
             <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 px-5 py-5 rounded-md shadow-lg bg-blue-50">
                 Huis
                 <div class="flex flex-wrap lg:grid lg:grid-cols-1 xl:grid-cols-2 2xl:grid-cols-4 mt-6 text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0 font-bold">
-                    <div class="w-full"><DataWidget text="Biertjes In Voorraad" databasedata={totalStock}/></div>
-                    <div class="w-full"><DataWidget text="Biertjes Gedronken" databasedata={totalBeersDrank} /></div>
+                    <div class="w-full"><DataWidget text="Biertjes In Voorraad" databasedata={totalStock.toString()}/></div>
+                    <div class="w-full"><DataWidget text="Biertjes Gedronken" databasedata={totalBeersDrank.toString()} /></div>
                 </div>
             </div>
             <div class="w-full md:w-1/3 font-bold text-xl mt-3 md:mt-0 mx-5 px-5 py-5 rounded-md shadow-lg bg-pink-50">
                 Persoonlijke Zuipstats
                 <div class="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 mt-6 font-bold text-lg pt-4 gap-4 md:gap-10 sm:mx-2 md:mx-0">
-                    <div class="w-full"><DataWidget text="Biertjes Over" databasedata={0} /></div>
-                    <div class="w-full"><DataWidget text="Totaal Gedronken" databasedata={0} /></div>
+                    <div class="w-full"><DataWidget text="Biertjes Over" databasedata={"0"} /></div>
+                    <div class="w-full"><DataWidget text="Totaal Gedronken" databasedata={"0"} /></div>
                 </div>
             </div>
             <div class="w-full md:w-1/6"></div>

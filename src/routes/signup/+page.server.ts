@@ -26,6 +26,7 @@ export const actions: Actions = {
 			});
 		}
 		if (typeof password !== "string" || password.length < 6 || password.length > 255) {
+            console.log("invalid password")
 			return fail(400, {
 				message: "Invalid password"
 			});
