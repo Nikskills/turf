@@ -20,14 +20,14 @@
           backgroundColor: 'rgba(75, 192, 192, 0.2)',
           borderColor: 'rgba(75, 192, 192, 1)',
           borderWidth: 1,
-          data: data.monthlyBeersDrank, // Example data points
+          data: data.monthlyBeersDrank,
         },
         {
           label: 'Zuipsessies',
           backgroundColor: 'rgba(255, 99, 132, 0.2)',
           borderColor: 'rgba(255, 99, 132, 1)',
           borderWidth: 1,
-          data: data.monthlySessions, // Example data points
+          data: data.monthlySessions, 
         },
       ],
     };

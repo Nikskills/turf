@@ -4,15 +4,14 @@ import { json } from '@sveltejs/kit';
 
 // POST handler to calculate and create settlements
 export const POST: RequestHandler = async () => {
-  // Check if there are any unpaid settlements
   const unpaidSettlements = await prisma.settlement.findMany({
     where: { paid: false },
     include: {
       debtor: {
-        select: { name: true }
+        select: { name: true, id: true}
       },
       creditor: {
-        select: { name: true }
+        select: { name: true, id: true}
       }
     },
   });
@@ -22,7 +21,9 @@ export const POST: RequestHandler = async () => {
       debtorName: settlement.debtor.name,
       creditorName: settlement.creditor.name,
       amount: settlement.amount,
-      paid: settlement.paid
+      paid: settlement.paid,
+      debtorId: settlement.debtorId,
+      creditorId: settlement.creditorId
     }));
 
     return json(
@@ -30,9 +31,9 @@ export const POST: RequestHandler = async () => {
         error: 'There are unpaid settlements. Please settle all previous records before recalculating.',
         settlements: formattedUnpaidSettlements 
       },
+      { status: 400 } // Optional: Set HTTP status code to 400 for bad request
     );
   }
-
   const balances = await prisma.user.findMany({
     where: {
       NOT: { balance: 0 },
@@ -87,24 +88,32 @@ export const POST: RequestHandler = async () => {
   const fetchedSettlements = await prisma.settlement.findMany({
     include: {
       debtor: {
-        select: { name: true }
+        select: {
+          id: true,   
+          name: true, 
+        },
       },
       creditor: {
-        select: { name: true }
-      }
+        select: {
+          id: true,  
+          name: true, 
+        },
+      },
     },
     orderBy: {
-      createdAt: 'desc'
-    }
+      createdAt: 'desc',
+    },
   });
+  
 
   // Format the response to include user names
   const formattedSettlements = fetchedSettlements.map(fetchedSettlement => ({
     debtorName: fetchedSettlement.debtor.name,
     creditorName: fetchedSettlement.creditor.name,
     amount: fetchedSettlement.amount,
-    paid: fetchedSettlement.paid
+    paid: fetchedSettlement.paid,
+    debtorId: fetchedSettlement.debtor.id,
+    creditorId: fetchedSettlement.creditor.id
   }));
-
   return json({ settlements: formattedSettlements });
 };

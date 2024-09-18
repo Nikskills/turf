@@ -1,11 +1,12 @@
 <script lang="ts">
 	import PrimaryButton from '$lib/components/PrimaryButton.svelte';
-	import Table from '$lib/components/Table.svelte';
+	import TableComp from '$lib/components/TableComp.svelte';
 	import { onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import { writable } from 'svelte/store';
 	export let data: PageData;
-  
+	import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+
 	const activeTab = writable('tab1');
 	const records = writable([]);
   
@@ -79,16 +80,25 @@
 		van: settlement.debtorName,
 		naar: settlement.creditorName,
 		hoeveel: `$${settlement.amount.toFixed(2)}`,
-		betaald: settlement.paid ? 'Paid' : `<button class="p-2 bg-primarybutton text-black rounded">Betalen</button>`
+		betaald: settlement.paid,
+		debtorId: settlement.debtorId,
+		creditorId: settlement.creditorId,
 	  }));
   
 	  records.set(formattedSettlements);
+	  console.log(`Voorbeeld van calculate balance settlement: ${formattedSettlements[0].debtorId}`)
 	}
   
-	// Function to handle payment settlement
-	function settlePayment(debtorName: string, creditorName: string, amount: number) {
-	  console.log(`Settling payment of $${amount} from ${debtorName} to ${creditorName}`);
-	  // Add your logic to handle the payment settlement
+	async function settlePayment(debtorId: string, creditorId: string, amount: number) {
+		console.log(`Settling payment of ${amount} from ${debtorId} to ${creditorId}`);
+		const response = await fetch("/api/settlePayments", {
+			method: "POST",
+			body: JSON.stringify({
+				debtorId,
+				creditorId,
+			})
+		})
+		console.log(response)
 	}
   </script>
   
@@ -117,10 +127,10 @@
 	<div class="flex flex-row w-3/4">
 	  {#if $activeTab === 'tab1'}
 		<div class="overflow-x-auto bg-white rounded-lg w-3/4">
-		  <Table columns={columns1} items={items} />
+		  <TableComp columns={columns1} items={items} />
 		</div>
 		<div class="overflow-x-auto bg-white rounded-lg w-1/4">
-		  <Table columns={columns2} items={userData} />
+		  <TableComp columns={columns2} items={userData} />
 		  <div class="flex justify-center mt-5">
 			<PrimaryButton text="Verreken" on:click={calculateBalance} />
 		  </div>
@@ -129,8 +139,34 @@
 		<div class="pl-6 w-full">
 		  <div class="flex flex-col items-center w-full">
 			<div class="overflow-x-auto bg-white rounded-lg w-full mt-3">
-				{#if $records.length > 0}
-			 		<Table columns={columns3} items={$records} />
+				{#if $records.length > 0}			  
+				  <Table hoverable={true}>
+					<TableHead>
+						{#each columns3 as column}
+					  		<TableHeadCell>{column.key}</TableHeadCell>
+						{/each}
+					</TableHead>
+					<TableBody tableBodyClass="divide-y">
+						{#each $records as settlement}
+							{#if settlement}
+								<TableBodyRow>
+									<TableBodyCell>{settlement.van}</TableBodyCell>
+									<TableBodyCell>{settlement.naar}</TableBodyCell>
+									<TableBodyCell>{settlement.hoeveel}</TableBodyCell>
+									<TableBodyCell>
+										{#if settlement.paid}
+											<span>Paid</span>
+										{:else}
+											<button on:click={() => settlePayment(settlement.debtorId, settlement.creditorId, settlement.hoeveel)} class="p-2 bg-primarybutton text-black rounded">
+											Betalen
+											</button>
+										{/if}
+									</TableBodyCell>
+								</TableBodyRow>
+							{/if}
+					 	{/each}
+					</TableBody>
+				  </Table>
 				{:else}
 					<div class="flex justify-center"><PrimaryButton text="Verreken" on:click={calculateBalance}/></div>
 				{/if}

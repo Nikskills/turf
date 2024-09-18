@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import "../../app.css"
-	import Table from "$lib/components/Table.svelte";
+	import Table from "$lib/components/TableComp.svelte";
 	import Streepknop from "$lib/components/Streepknop.svelte";
     export let data: PageData
 
