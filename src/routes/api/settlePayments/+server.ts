@@ -16,10 +16,7 @@ export const POST: RequestHandler = async ({request}) => {
         }
     })
 
-    console.log(`id: ${settlementId?.id}`);
-
     if(typeof(settlementId?.id) === 'string'){
-        console.log("updating")
         await prisma.settlement.update({
             where: {
                 id: settlementId.id,
@@ -39,7 +36,23 @@ export const POST: RequestHandler = async ({request}) => {
     }
     )
 
-    //Update Balances
+    await prisma.user.update({
+        where: {
+            id: data.creditorId,
+        },
+        data: {
+            balance: {decrement: parseFloat(data.amount)}
+        }
+    })
+
+    await prisma.user.update({
+        where: {
+            id: data.debtorId,
+        },
+        data: {
+            balance: {increment: parseFloat(data.amount)}
+        }
+    })
 
     return new Response(JSON.stringify(settlements), {
         status: 201,

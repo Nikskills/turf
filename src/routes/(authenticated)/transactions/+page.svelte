@@ -6,6 +6,7 @@
 	import { writable } from 'svelte/store';
 	export let data: PageData;
 	import { Table, TableBody, TableBodyCell, TableBodyRow, TableHead, TableHeadCell } from 'flowbite-svelte';
+	import { page } from '$app/stores';
 
 	const activeTab = writable('tab1');
 	const records = writable([]);
@@ -79,7 +80,7 @@
 	  const formattedSettlements = data.settlements.map((settlement: any) => ({
 		van: settlement.debtorName,
 		naar: settlement.creditorName,
-		hoeveel: `$${settlement.amount.toFixed(2)}`,
+		hoeveel: `${settlement.amount.toFixed(2)}`,
 		betaald: settlement.paid,
 		debtorId: settlement.debtorId,
 		creditorId: settlement.creditorId,
@@ -90,15 +91,21 @@
 	}
   
 	async function settlePayment(debtorId: string, creditorId: string, amount: number) {
-		console.log(`Settling payment of ${amount} from ${debtorId} to ${creditorId}`);
 		const response = await fetch("/api/settlePayments", {
 			method: "POST",
 			body: JSON.stringify({
 				debtorId,
 				creditorId,
+				amount
 			})
 		})
-		console.log(response)
+		if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error occurred:", errorData);
+            alert(`Error: ${errorData.error || 'Payment settlement failed'}`);
+            return;
+        }
+		window.location.reload()
 	}
   </script>
   
