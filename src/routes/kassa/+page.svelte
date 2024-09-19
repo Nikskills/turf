@@ -44,10 +44,12 @@
             <div>
                 <div class="flex flex-row flex-wrap justify-between mx-4">
                     {#each data.users as person}
-                    <div class="flex flex-col">
-                        <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} source="src/lib/images/Huisgenootjes/Snack.jpeg" /></button>
-                        <input type="number" name="{person.name}" class="border border-white justify-center text-center" id={person.name} bind:value={counts[person.name]} readonly>
-                    </div>
+                    {#if person.name != 'Huis'}
+                        <div class="flex flex-col">
+                            <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} source={`src/lib/images/Huisgenootjes/${person.name}.jpg`} /></button>
+                            <input type="number" name="{person.name}" class="border border-white justify-center text-center" id={person.name} bind:value={counts[person.name]} readonly>
+                        </div>
+                    {/if}
                     {/each}
                 </div>
                 <div></div>

@@ -2,7 +2,6 @@ import prisma from '$lib/prisma';
 import type { RequestHandler } from './$types';
 
 export const POST: RequestHandler = async ({request}) => {
-    //both the debtor and the credidor names must be received from the request
     const data = await request.json();
 
     const settlementId= await prisma.settlement.findFirst({

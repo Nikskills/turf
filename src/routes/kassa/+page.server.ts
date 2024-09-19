@@ -10,13 +10,12 @@ export const load: PageServerLoad = async ({ locals }) => {
     }
 
     if (locals.user?.name !== "Huis") {
-        throw redirect(302, '/login')
+        throw redirect(302, '/dashboard')
     }
 
     const users = await prisma.user.findMany({
         select: {
             name: true,
-            //image must be rendered
         }
         
     })
