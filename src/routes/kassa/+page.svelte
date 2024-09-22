@@ -1,31 +1,17 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     import "../../app.css"
-	import Table from "$lib/components/TableComp.svelte";
 	import Streepknop from "$lib/components/Streepknop.svelte";
     export let data: PageData
 
-
-    let items: any[] = [];
     let counts: Record<string, number> = {};
-    for (let i = 0; i < data.sessions.length; i++) {
-        for (let j = 0; j < data.sessions[i].consumption.length; j++) {
-            items.push({
-                bier: data.sessions[i].consumption[j].quantity,
-                naam: data.sessions[i].consumption[j].drinker.name,
-                datum: data.sessions[i].date.getDate() + "-" + data.sessions[i].date.getMonth()+ "-" + data.sessions[i].date.getFullYear()
-            }) 
-        }
-    }
-    let columns = [
-    { header: 'Naam', key: 'naam' },
-    { header: '# Bier', key: 'bier' },
-    { header: 'Datum', key: 'datum' }
-    ];
+
+    // Combine actual users with 7 empty users
+    let displayUsers = [...data.users, ...Array(7).fill({ name: 'User', image: '' })];
 
     $: {
-        data.users.forEach(user =>{
-            if (counts[user.name] === undefined) {
+        displayUsers.forEach(user => {
+            if (user.name && counts[user.name] === undefined) {
                 counts[user.name] = 0;
             }
         })
@@ -37,30 +23,49 @@
 
 </script>
 
-<form method="POST"  class="max-h-screen flex flex-col w-screen overflow-hidden">
+<form method="POST" class="max-h-screen flex flex-col w-screen">
     <div class="flex-grow h-full">
-        <div class="grid grid-cols-1 min-h-screen justify-between">
-            <div class="flex justify-center font-bold text-center my-4">Hoi! Streep AUB je drankjes! Vergeet ook niet op verstuur te klikken, anders doet ie niks</div>
-            <div>
-                <div class="flex flex-row flex-wrap justify-between mx-4">
-                    {#each data.users as person}
-                    {#if person.name != 'Huis'}
-                        <div class="flex flex-col">
-                            <button type="button" on:click={() => count(person.name)}><Streepknop name={person.name} source={`src/lib/images/Huisgenootjes/${person.name}.jpg`} /></button>
-                            <input type="number" name="{person.name}" class="border border-white justify-center text-center" id={person.name} bind:value={counts[person.name]} readonly>
-                        </div>
-                    {/if}
-                    {/each}
+        <!-- Title Section -->
+        <div class="grid grid-cols-1 min-h-screen justify-between mt-6 mx-4">
+            <div class="flex justify-center font-bold mb-12 px-2"> <!-- mb-12 adds more bottom margin -->
+                <div class="font-bold text-black w-2/3 my-1">
+                    <h1 class="text-2xl">Streep Systeem der Huize Pinguin</h1>
                 </div>
-                <div></div>
-                <div class="flex justify-center w-full my-5"> 
-                    <button type="submit" class="w-1/4 rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm ">Verstuur</button> 
+                <div class="grid grid-flow-col w-1/3">
+                    <button type="submit" class="rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Balans</button>
+                    <button type="submit" class="rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Nieuwe Voorraad</button>
                 </div>
             </div>
-            <div class="flex justify-center align-center">
-                <div class="hidden md:block w-3/4 rounded-lg mt-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
-                    <Table {items} {columns}/>
+
+            <!-- Description Section -->
+            <div class="h-full mb-12"> <!-- mb-12 adds more bottom margin between description and content -->
+                <div class="grid grid-cols-4">
+                    <p class="col-start-2 col-end-4 py-1 px-4 ">
+                        Hier kun je bier strepen! Klik op een naam om een biertje toe te voegen. Vergeet niet op verstuur te klikken, anders telt het niet :(
+                    </p>
                 </div>
+
+                <!-- Main Content Section -->
+                <div class="bg-secondary bg-opacity-20 py-2 mx-3 rounded-lg my-2 h-max mt-12"> 
+                    <div class="flex flex-row flex-wrap justify-center gap-10 mx-4 my-4">
+                        {#each displayUsers as person}
+                        {#if person.name != 'Huis'}
+                            <div class="flex flex-col my-1 py-2 border-black border rounded-lg w-auto bg-white">
+                                <button type="button" on:click={() => count(person.name)}>
+                                    <Streepknop name={person.name} source={`src/lib/images/Huisgenootjes/${person.name}.jpg`} />
+                                </button>
+                                <input type="number" name="{person.name}" class="border-none bg-inherit justify-center text-center w-auto" id={person.name} bind:value={counts[person.name]} readonly>
+                            </div>
+                        {/if}
+                        {/each}
+                    </div>
+
+                    <div class="flex justify-center w-full my-5">
+                        <button type="submit" class="w-1/4 rounded-md bg-primarybutton text-generalbackground py-2 text-sm font-semibold shadow-sm">
+                            Verstuur
+                        </button>
+                    </div>  
+                </div>       
             </div>
         </div>
     </div>
