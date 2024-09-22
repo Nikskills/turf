@@ -2,7 +2,7 @@
 	import DataWidget from '$lib/components/DataWidget.svelte';
 	import PrimaryButton from '$lib/components/PrimaryButton.svelte';
 	import SignoutButton from '$lib/components/SignoutButton.svelte';
-	import Table from '$lib/components/Table.svelte';
+	import Table from '$lib/components/TableComp.svelte';
     import type {PageData} from './$types'
 
     export let data: PageData
