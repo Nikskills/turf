@@ -6,6 +6,11 @@ import type { PageServerLoad, Actions } from './$types';
 export const load: PageServerLoad = async () => {
     const users = await prisma.user.findMany({
         select: { name: true },
+        where: {
+            name: {
+                not: 'Huis'
+            }
+        }
     });
     return { users };
 };

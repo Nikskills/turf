@@ -32,8 +32,8 @@
                     <h1 class="text-2xl">Streep Systeem der Huize Pinguin</h1>
                 </div>
                 <div class="grid grid-flow-col w-1/3">
-                    <button type="submit" class="rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Balans</button>
-                    <button type="submit" class="rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Nieuwe Voorraad</button>
+                    <a href="/balance" class="w-full"><button class="w-[95%] rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Balans</button></a>
+                    <a href="/newsupply" class="w-full"><button class="w-[95%] rounded-md bg-secondary text-generalbackground py-2 text-sm font-semibold shadow-sm mx-2 my-1">Nieuwe Voorraad</button></a>
                 </div>
             </div>
 

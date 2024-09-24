@@ -87,7 +87,6 @@
 	  }));
   
 	  records.set(formattedSettlements);
-	  console.log(`Voorbeeld van calculate balance settlement: ${formattedSettlements[0].debtorId}`)
 	}
   
 	async function settlePayment(debtorId: string, creditorId: string, amount: number) {
@@ -158,8 +157,8 @@
 							{#if settlement}
 								<TableBodyRow>
 									<TableBodyCell>{settlement.van}</TableBodyCell>
-									<TableBodyCell>{settlement.naar}</TableBodyCell>
 									<TableBodyCell>{settlement.hoeveel}</TableBodyCell>
+									<TableBodyCell>{settlement.naar}</TableBodyCell>
 									<TableBodyCell>
 										{#if settlement.paid}
 											<span>Paid</span>
@@ -175,7 +174,9 @@
 					</TableBody>
 				  </Table>
 				{:else}
-					<div class="flex justify-center"><PrimaryButton text="Verreken" on:click={calculateBalance}/></div>
+					<div class="flex flex-col justify-center">
+						<p>Er zijn geen verrekeningen mogelijk, zuip eerst maar meer :heart </p>
+					</div>
 				{/if}
 			</div>
 		  </div>

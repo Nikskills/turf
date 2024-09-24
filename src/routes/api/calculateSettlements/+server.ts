@@ -31,12 +31,12 @@ export const POST: RequestHandler = async () => {
         error: 'There are unpaid settlements. Please settle all previous records before recalculating.',
         settlements: formattedUnpaidSettlements 
       },
-      { status: 400 } // Optional: Set HTTP status code to 400 for bad request
+      { status: 400 }
     );
   }
   const balances = await prisma.user.findMany({
     where: {
-      NOT: { balance: 0 },
+      NOT: { balance: 0.00 },
     },
     select: {
       id: true,
@@ -74,8 +74,8 @@ export const POST: RequestHandler = async () => {
     debtor.amount -= settlementAmount;
     creditor.amount -= settlementAmount;
 
-    if (debtor.amount === 0) debtors.shift();
-    if (creditor.amount === 0) creditors.shift();
+    if (debtor.amount === 0.00) debtors.shift();
+    if (creditor.amount === 0.00) creditors.shift();
   }
 
   if (settlements.length > 0) {
@@ -86,6 +86,9 @@ export const POST: RequestHandler = async () => {
 
   // Fetch the created settlements with user names included
   const fetchedSettlements = await prisma.settlement.findMany({
+    where: {
+      paid: false
+    },
     include: {
       debtor: {
         select: {

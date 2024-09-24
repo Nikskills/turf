@@ -58,7 +58,7 @@
                 <input type="date" id="datum" name="datum" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring focus:ring-indigo-500 focus:ring-opacity-50">
             </div>
             <div>
-                <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50">Verstuur</button>
+                <button type="submit" class="w-full rounded-md text-white bg-primarybutton py-2 text-sm font-semibold shadow-sm hover:primarybutton hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50">Verstuur</button>
             </div>
         </div>
     </form>
