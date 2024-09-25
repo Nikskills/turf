@@ -32,7 +32,7 @@
     <div class="flex flex-row justify-between mr-4 flex-wrap">
         <!-- Top row -->
         <div class="font-bold text-3xl ml-10 pl-3">Welkom {userName}</div>
-        <div class="flex flex-row gap-4 fixed right-2">
+        <div class="flex flex-row gap-4 fixed right-2 z-10 mr-10">
             <!-- Buttons -->
             <div><a href="/newsupply"><PrimaryButton text="Nieuwe Voorraad"/></a></div>
             <div><a href="/drinkingsession"><PrimaryButton text="Ik Heb Gezopen" /></a></div>
@@ -59,9 +59,9 @@
             </div>
             <div class="w-full md:w-1/6"></div>
         </div>
-        <div class="flex justify-center align-center">
+        <div class="flex justify-center align-center mt-10">
             <div class="hidden md:block bg-purple-50 shadow-lg w-2/3 rounded-lg mt-5 2xl:mx-5 mb-4 p-6 2xl:p-10">
-                <div class="font-bold text-2xl mb-4 text-gray-800">Huis Zuipsessies</div>
+                <div class="font-bold text-2xl mb-6 text-gray-800 ml-6">Huis Zuipsessies</div>
                 <Table {items} {columns}/>
             </div>
         </div>

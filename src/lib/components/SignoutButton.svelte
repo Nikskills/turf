@@ -19,6 +19,6 @@
     }
 </script>
 
-<button on:click={handleSignout} class="bg-primarybutton hover:bg-primarybuttondark text-black font-bold py-2 px-4 rounded shadow-md transition-transform duration-300 transform hover:-translate-y-1">
+<button on:click={handleSignout} class="bg-primarybutton hover:opacity-90 text-white font-bold py-2 px-4 rounded shadow-md transition-transform duration-300 transform hover:-translate-y-1">
     Log Uit
 </button>

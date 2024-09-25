@@ -132,10 +132,10 @@
 	</div>
 	<div class="flex flex-row w-3/4">
 	  {#if $activeTab === 'tab1'}
-		<div class="overflow-x-auto bg-white rounded-lg w-3/4">
+		<div class="overflow-x-auto bg-generalbackground rounded-lg w-3/4">
 		  <TableComp columns={columns1} items={items} />
 		</div>
-		<div class="overflow-x-auto bg-white rounded-lg w-1/4">
+		<div class="overflow-x-auto bg-generalbackground rounded-lg w-1/4">
 		  <TableComp columns={columns2} items={userData} />
 		  <div class="flex justify-center mt-5">
 			<PrimaryButton text="Verreken" on:click={calculateBalance} />
@@ -144,7 +144,7 @@
 	  {:else if $activeTab === 'tab2'}
 		<div class="pl-6 w-full">
 		  <div class="flex flex-col items-center w-full">
-			<div class="overflow-x-auto bg-white rounded-lg w-full mt-3">
+			<div class="overflow-x-auto bg-generalbackground rounded-lg w-full mt-3">
 				{#if $records.length > 0}			  
 				  <Table hoverable={true}>
 					<TableHead>

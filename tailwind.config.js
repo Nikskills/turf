@@ -7,7 +7,6 @@ export default {
   theme: {
     extend: {
       colors: {
-        'navbarpurple': '#4A4E70',
         'primarybutton': '#8656b5',
         'primarybuttondark': '#8DE7C8',
         'generalbackground': '#fbfafd',
