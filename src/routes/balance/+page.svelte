@@ -10,11 +10,12 @@
     const remainingBeers = data.remainingBeers
 
     for (let user of users) {
-        console.log(user.name )
-        rows.push({
-            naam: user.name,
-            balans: user.balance
-        })
+        if (user.name != 'Huis') {
+            rows.push({
+                naam: user.name,
+                balans: user.balance
+            })
+        }
     }
 
     let columns = [
