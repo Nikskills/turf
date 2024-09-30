@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { PageData } from "./$types";
     export let data: PageData;
+    import '../../../app.css'
 
     let users = data.users;
     let kratjes = 0;
@@ -18,6 +19,13 @@
 
 <div class="h-screen w-full flex justify-center items-center bg-gray-100">
     <form class="w-full max-w-lg bg-white p-8 shadow-md rounded-lg" method="post">
+        <!-- Terug Button -->
+        <div class="flex justify-start mb-4">
+            <div class="w-[14%] py-2 rounded-lg  text-black hover:opacity-80">
+                <button on:click={() => window.history.back()} type="button">Terug</button>
+            </div>
+        </div>
+
         <h2 class="text-lg font-semibold text-gray-900 mb-6">Nieuwe Voorraad</h2>
         <div class="space-y-6">
             <div>
