@@ -20,7 +20,7 @@
                     <input type="password" name="password" id="password" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-400  focus:ring-opacity-50" placeholder="Vul je wachtwoord in" required>
                 </div>
 
-                <button type="submit" class="w-full rounded-md bg-primarybutton py-2 text-sm font-semibold  shadow-sm hover:bg-primarybuttondark focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Continue</button>
+                <button type="submit" class="w-full rounded-md bg-primarybutton text-white py-2 text-sm font-semibold  shadow-sm hover:bg-primarybutton hover:opacity-80 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">Continue</button>
                 <a href="/signup" class="">Ik heb nog geen account</a>
             </div>
             

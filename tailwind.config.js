@@ -7,28 +7,16 @@ export default {
   theme: {
     extend: {
       colors: {
-        'navbarpurple': '#4A4E70',
-        'primarybutton': '#A0EBD1',
+        'primarybutton': '#8656b5',
         'primarybuttondark': '#8DE7C8',
-        'generalbackground': '#F5F4F4',
+        'generalbackground': '#fbfafd',
         'widgetaccent': '#D7DEE1',
         'white': '#FFFFFF',
-        'black': '#000000',
-        
-        primary: {
-          //flowbite
-          50: '#FFF5F2',
-          100: '#FFF1EE',
-          200: '#FFE4DE',
-          300: '#FFD5CC',
-          400: '#FFBCAD',
-          500: '#FE795D',
-          600: '#EF562F',
-          700: '#EB4F27',
-          800: '#CC4522',
-          900: '#A5371B'
-        }
-      },
+        'black': '#110b1a',
+        'primary': '#8656b5',
+        'secondary': '#d8a6ab',
+        'accent': '#f83b7b',
+      }
     },
   },
   plugins: [
