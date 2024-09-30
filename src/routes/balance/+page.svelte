@@ -3,9 +3,11 @@
 	import type { PageData } from "./$types";
     export let data: PageData
     import '../../app.css'
+	import DataWidget from "$lib/components/DataWidget.svelte";
 
     const users = data.users
     let rows = []
+    const remainingBeers = data.remainingBeers
 
     for (let user of users) {
         console.log(user.name )
@@ -30,10 +32,21 @@
     </div>
     
     <div class="flex flex-col items-center justify-center p-6">
-        <h1 class="text-4xl font-bold text-black mb-8 text-center">Balans</h1>
+        <h1 class="text-4xl font-bold text-black mb-8 text-center w-full">Balans</h1>
 
-        <div class="bg-generalbackground rounded-lg p-6 w-1/2 max-w-6xl">
-            <TableComp items={rows} columns={columns} />
+        <div class="w-full max-w-6xl flex flex-row justify-between space-x-4">
+
+            <div class="bg-generalbackground rounded-lg p-6 w-full">
+                <TableComp items={rows} columns={columns} />
+            </div>
+
+            <div class="w-full rounded-lg p-6 bg-generalbackground">
+                <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-2">
+                    <DataWidget databasedata={remainingBeers.toString()} text="Biertjes over"/>
+                </div>
+            </div>
+            
+
         </div>
     </div>
 </div>
