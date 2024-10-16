@@ -36,15 +36,6 @@
 	  });
 	}
   
-	for (let consumption of consumptions) {
-	  items.push({
-		datum: new Date(consumption.session.date).toLocaleDateString(),
-		type: 'Gezopen',
-		persoon: consumption.drinker.name,
-		hoeveelheid: -consumption.quantity
-	  });
-	}
-  
 	const columns1 = [
 	  { header: 'Persoon', key: 'persoon' },
 	  { header: 'Datum', key: 'datum' },

@@ -1,8 +1,5 @@
 <script lang="ts">
     import type { PageData } from "./$types";
-    import { page } from '$app/stores';
-    import { onMount } from 'svelte';
-
     export let data: PageData
     let counts: Record<string, number> = {};
     let beschrijving = '';
@@ -27,7 +24,7 @@
             counts[personName] -= 1;
             validateForm();
         } else {
-            console.log("cannot be negative"); // Only log if trying to go negative
+            console.log("cannot be negative");
         }
     }
 

@@ -65,7 +65,7 @@ async function createConsumptionSessionAndTransactions(description: string, user
             }
         },
         include: {
-            consumption: true // Optionally include related consumptions in the result
+            consumption: true 
         }
     });
 
@@ -84,6 +84,9 @@ async function createConsumptionSessionAndTransactions(description: string, user
     console.log("Created consumption session and transactions", result);
     console.log("Created transaction", result2)
     const price = await prisma.stockTransaction.findFirst({
+        where: {
+            transactionType: 'PURCHASE',
+        },
         select: {
             cost: true,
             quantity: true
